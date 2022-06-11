@@ -25,6 +25,14 @@ class EitherController {
       Either.Right(
           ResponseEntity.status(201).header("Foo", "Bar").body(SuccessResponse("Hello World")))
 
+  @GetMapping("/response-entity/xml")
+  fun responseEntityXml(): Either<Throwable, ResponseEntity<SuccessResponse>> =
+      Either.Right(
+          ResponseEntity.status(201)
+              .header("Foo", "Bar")
+              .contentType(MediaType.APPLICATION_XML)
+              .body(SuccessResponse("Hello World")))
+
   @GetMapping("/failure")
   fun failure(): Either<Throwable, SuccessResponse> = Either.Left(RuntimeException("Dying"))
 }

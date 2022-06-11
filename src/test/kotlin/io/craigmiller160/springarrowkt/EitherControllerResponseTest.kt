@@ -50,7 +50,18 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps the Right ResponseEntity value with non-JSON content type and returns it`() {
-    TODO("Finish this")
+    mockMvc.get("/either/response-entity/xml").andExpect {
+      status { isOk() }
+      header { string("Foo", equalTo("Bar")) }
+      content {
+        xml(
+            """
+        <successResponse>
+          <message>Hello World</message>
+        </successResponse>
+      """.trimIndent())
+      }
+    }
   }
 
   @Test
