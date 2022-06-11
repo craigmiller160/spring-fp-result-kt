@@ -19,7 +19,6 @@ class EitherMethodReturnValueHandler(
 ) : HandlerMethodReturnValueHandler {
   // TODO review and clean up all of this
   override fun supportsReturnType(returnType: MethodParameter): Boolean {
-    // TODO consider enhancing this
     return delegate.supportsReturnType(returnType)
   }
 
@@ -77,9 +76,8 @@ class EitherMethodReturnValueHandler(
   // TODO what if left value is not error?
   private fun handleLeft(leftValue: Any?): Nothing =
       when (leftValue) {
-        null -> throw EitherLeftException("Null value in Left")
         is Throwable -> throw leftValue
-        else -> throw EitherLeftException(leftValue.toString())
+        else -> throw NonThrowableEitherLeftException(leftValue.toString())
       }
 
   private class EitherHttpOutputMessage : HttpOutputMessage {
