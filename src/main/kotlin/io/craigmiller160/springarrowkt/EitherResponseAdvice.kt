@@ -3,12 +3,10 @@ package io.craigmiller160.springarrowkt
 import arrow.core.Either
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
-import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
-import org.springframework.stereotype.Component
 
-@Component
-@Aspect
+// @Component
+// @Aspect
 class EitherResponseAdvice {
   @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
   fun restController() {}
