@@ -5,6 +5,7 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication class SpringArrowKtApplication
 
+// TODO delete this its a library
 fun main(args: Array<String>) {
   runApplication<SpringArrowKtApplication>(*args)
 }
