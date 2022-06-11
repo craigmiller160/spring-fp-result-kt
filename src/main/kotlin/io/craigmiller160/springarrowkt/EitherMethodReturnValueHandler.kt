@@ -1,14 +1,18 @@
 package io.craigmiller160.springarrowkt
 
 import arrow.core.Either
+import com.fasterxml.jackson.databind.ObjectMapper
+import javax.servlet.http.HttpServletResponse
 import org.springframework.core.MethodParameter
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler
 import org.springframework.web.method.support.ModelAndViewContainer
 
-class EitherMethodReturnValueHandler(private val delegate: HandlerMethodReturnValueHandler) :
-    HandlerMethodReturnValueHandler {
+class EitherMethodReturnValueHandler(
+    private val delegate: HandlerMethodReturnValueHandler,
+    private val objectMapper: ObjectMapper
+) : HandlerMethodReturnValueHandler {
   override fun supportsReturnType(returnType: MethodParameter): Boolean {
     // TODO consider enhancing this
     return delegate.supportsReturnType(returnType)
@@ -33,10 +37,21 @@ class EitherMethodReturnValueHandler(private val delegate: HandlerMethodReturnVa
       webRequest: NativeWebRequest
   ) =
       when (rightValue) {
-        is ResponseEntity<*> -> TODO("Not implemented")
+        is ResponseEntity<*> -> handleResponseEntity(rightValue, webRequest)
         else -> delegate.handleReturnValue(rightValue, returnType, mavContainer, webRequest)
       }
 
+  private fun handleResponseEntity(
+      responseEntity: ResponseEntity<*>,
+      webRequest: NativeWebRequest
+  ) {
+    val response = (webRequest.nativeResponse as HttpServletResponse)
+    // TODO need to support non-json responses
+    val json = objectMapper.writeValueAsString(responseEntity.body)
+    TODO("Made it this far")
+  }
+
+  // TODO what if left value is not error?
   private fun handleLeft(leftValue: Any?): Nothing =
       when (leftValue) {
         null -> throw EitherLeftException("Null value in Left")

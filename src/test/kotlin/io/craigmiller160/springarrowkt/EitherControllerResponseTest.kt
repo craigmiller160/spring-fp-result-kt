@@ -24,11 +24,21 @@ class EitherControllerResponseTest {
   }
 
   @Test
-  fun `unwraps a ResponseEntity value and returns it`() {
+  fun `unwraps the Right value and returns as 200 response, non-JSON content type`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `unwraps the Right ResponseEntity value and returns it`() {
     mockMvc.get("/either/response-entity").andExpect {
       status { isEqualTo(201) }
       content { json("""{"message": "Hello World"}""") }
     }
+  }
+
+  @Test
+  fun `unwraps the Right ResponseEntity value with non-JSON content type and returns it`() {
+    TODO("Finish this")
   }
 
   @Test
