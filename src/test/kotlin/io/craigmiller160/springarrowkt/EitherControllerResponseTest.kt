@@ -25,7 +25,7 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps a ResponseEntity value and returns it`() {
-    mockMvc.get("/either/success").andExpect {
+    mockMvc.get("/either/response-entity").andExpect {
       status { isEqualTo(201) }
       content { json("""{"message": "Hello World"}""") }
     }
