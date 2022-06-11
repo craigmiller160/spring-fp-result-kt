@@ -19,10 +19,17 @@ class EitherMethodReturnValueHandler(private val delegate: HandlerMethodReturnVa
       mavContainer: ModelAndViewContainer,
       webRequest: NativeWebRequest
   ) {
-    println("IS RUNNING") // TODO delete this
-    if (returnType.declaringClass == Either::class.java) {
-      println("IS EITHER") // TODO delete this
+    println("IS RUNNING: $returnValue") // TODO delete this
+    when (returnValue) {
+      is Either.Left<*> -> handleLeft(returnValue.value)
+      else -> delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest)
     }
-    delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest)
   }
+
+  private fun handleLeft(leftValue: Any?): Nothing =
+      when (leftValue) {
+        null -> throw EitherLeftException("Null value in Left")
+        is Throwable -> throw leftValue
+        else -> throw EitherLeftException(leftValue.toString())
+      }
 }
