@@ -19,9 +19,10 @@ class EitherMethodReturnValueHandler(private val delegate: HandlerMethodReturnVa
       mavContainer: ModelAndViewContainer,
       webRequest: NativeWebRequest
   ) {
-    println("IS RUNNING: $returnValue") // TODO delete this
     when (returnValue) {
       is Either.Left<*> -> handleLeft(returnValue.value)
+      is Either.Right<*> ->
+          delegate.handleReturnValue(returnValue.value, returnType, mavContainer, webRequest)
       else -> delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest)
     }
   }
