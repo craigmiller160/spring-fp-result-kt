@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 @Component
 class EitherResponseBodyFactoryWrapBean(private val adapter: RequestMappingHandlerAdapter) :
     InitializingBean {
-  // TODO this approach needs to be flexible to support existing customizations here
 
   override fun afterPropertiesSet() {
     val returnValueHandlers = adapter.returnValueHandlers ?: listOf()
