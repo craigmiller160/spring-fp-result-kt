@@ -32,6 +32,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("io.arrow-kt:arrow-core-jvm:$arrowVersion")
+    testImplementation("com.h2database:h2")
 }
 
 tasks {
