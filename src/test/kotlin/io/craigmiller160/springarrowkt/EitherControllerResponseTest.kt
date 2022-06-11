@@ -33,6 +33,9 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps the Left value, throws it as an exception, and handles it via the exception handler`() {
-    TODO("Finish this")
+    mockMvc.get("/either/failure").andExpect {
+      status { isInternalServerError() }
+      content { json("""{"errorMessage":"Dying"}""") }
+    }
   }
 }
