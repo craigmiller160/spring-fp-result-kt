@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/either")
 class EitherController {
-    @GetMapping("/success")
-    fun success() {
-        TODO()
-    }
+  @GetMapping("/success")
+  fun success() {
+    TODO()
+  }
 
-    @GetMapping("/failure")
-    fun failure() {
-        TODO()
-    }
+  @GetMapping("/failure")
+  fun failure() {
+    TODO()
+  }
 }
