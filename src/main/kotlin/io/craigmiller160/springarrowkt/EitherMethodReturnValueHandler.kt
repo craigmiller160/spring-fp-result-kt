@@ -50,6 +50,10 @@ class EitherMethodReturnValueHandler(
     // TODO need to support non-json responses
     val json = objectMapper.writeValueAsString(responseEntity.body)
     response.status = 201
+    responseEntity.headers
+        .asSequence()
+        .flatMap { entry -> entry.value.asSequence().map { entry.key to it } }
+        .forEach { (key, value) -> response.setHeader(key, value) }
     response.writer.use { writer -> writer.write(json) }
   }
 

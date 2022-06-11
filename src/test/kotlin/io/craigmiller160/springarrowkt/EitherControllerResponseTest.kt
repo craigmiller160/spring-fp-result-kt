@@ -1,5 +1,6 @@
 package io.craigmiller160.springarrowkt
 
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,6 +43,7 @@ class EitherControllerResponseTest {
   fun `unwraps the Right ResponseEntity value and returns it`() {
     mockMvc.get("/either/response-entity").andExpect {
       status { isEqualTo(201) }
+      header { string("Foo", equalTo("Bar")) }
       content { json("""{"message": "Hello World"}""") }
     }
   }

@@ -22,7 +22,8 @@ class EitherController {
 
   @GetMapping("/response-entity")
   fun responseEntity(): Either<Throwable, ResponseEntity<SuccessResponse>> =
-      Either.Right(ResponseEntity.status(201).body(SuccessResponse("Hello World")))
+      Either.Right(
+          ResponseEntity.status(201).header("Foo", "Bar").body(SuccessResponse("Hello World")))
 
   @GetMapping("/failure")
   fun failure(): Either<Throwable, SuccessResponse> = Either.Left(RuntimeException("Dying"))
