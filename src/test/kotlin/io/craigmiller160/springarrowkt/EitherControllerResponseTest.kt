@@ -25,6 +25,11 @@ class EitherControllerResponseTest {
   }
 
   @Test
+  fun `unwraps the Right value when there is no body and returns as 200 response`() {
+    TODO("Finish this")
+  }
+
+  @Test
   fun `unwraps the Right value and returns as 200 response, non-JSON content type`() {
     mockMvc.get("/either/success/xml").andExpect {
       status { isOk() }
@@ -51,7 +56,7 @@ class EitherControllerResponseTest {
   @Test
   fun `unwraps the Right ResponseEntity value with non-JSON content type and returns it`() {
     mockMvc.get("/either/response-entity/xml").andExpect {
-      status { isOk() }
+      status { isEqualTo(201) }
       header { string("Foo", equalTo("Bar")) }
       content {
         xml(
@@ -62,6 +67,11 @@ class EitherControllerResponseTest {
       """.trimIndent())
       }
     }
+  }
+
+  @Test
+  fun `unwraps the Right ResponseEntity value with no body and 204 status and returns it`() {
+    TODO("Finish this")
   }
 
   @Test

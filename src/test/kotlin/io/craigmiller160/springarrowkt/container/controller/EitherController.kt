@@ -6,7 +6,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -16,7 +15,7 @@ class EitherController {
   @GetMapping("/success")
   fun success(): Either<Throwable, SuccessResponse> = Either.Right(SuccessResponse("Hello World"))
 
-  @ResponseBody
+  //  @ResponseBody
   @GetMapping("/success/xml", produces = [MediaType.APPLICATION_XML_VALUE])
   fun successXml(): SuccessResponse = SuccessResponse("Hello World")
 
