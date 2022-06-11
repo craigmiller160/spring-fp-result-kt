@@ -48,7 +48,8 @@ class EitherMethodReturnValueHandler(
     val response = (webRequest.nativeResponse as HttpServletResponse)
     // TODO need to support non-json responses
     val json = objectMapper.writeValueAsString(responseEntity.body)
-    TODO("Made it this far")
+    response.status = 201
+    response.writer.use { writer -> writer.write(json) }
   }
 
   // TODO what if left value is not error?
