@@ -14,16 +14,22 @@ class EitherResponseAdvice {
   fun restController() {}
 
   @AfterReturning(value = "restController()", returning = "returnValue")
-  fun experiment(joinPoint: JoinPoint, returnValue: Any?) {
-    returnValue?.let { nonNullValue ->
-      if (nonNullValue is Either.Left<*>) {
-        nonNullValue.value?.let { eitherValue ->
-          if (eitherValue is Throwable) {
-            throw eitherValue
-          }
-          throw EitherLeftException(eitherValue.toString())
-        }
+  fun experiment(joinPoint: JoinPoint, returnValue: Any?): Any? =
+      returnValue?.let(::handleReturnValue)
+
+  private fun handleReturnValue(returnValue: Any): Any? =
+      when (returnValue) {
+        is Either.Left<*> -> handleLeft(returnValue.value)
+        is Either.Right<*> -> returnValue.value
+        else ->
+            throw IllegalStateException(
+                "Invalid Either return value type: ${returnValue.javaClass.name}")
       }
-    }
-  }
+
+  private fun handleLeft(leftValue: Any?): Nothing =
+      when (leftValue) {
+        null -> throw EitherLeftException("Null value in Left")
+        is Throwable -> throw leftValue
+        else -> throw EitherLeftException(leftValue.toString())
+      }
 }
