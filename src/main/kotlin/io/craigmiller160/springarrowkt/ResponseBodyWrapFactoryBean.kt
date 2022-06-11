@@ -1,6 +1,5 @@
 package io.craigmiller160.springarrowkt
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Component
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler
@@ -8,10 +7,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor
 
 @Component
-class ResponseBodyWrapFactoryBean(
-    private val adapter: RequestMappingHandlerAdapter,
-    private val objectMapper: ObjectMapper
-) : InitializingBean {
+class ResponseBodyWrapFactoryBean(private val adapter: RequestMappingHandlerAdapter) :
+    InitializingBean {
   // TODO this approach needs to be flexible to support existing customizations here
 
   override fun afterPropertiesSet() {
@@ -26,7 +23,7 @@ class ResponseBodyWrapFactoryBean(
       handlers.map { handler ->
         when (handler) {
           is RequestResponseBodyMethodProcessor ->
-              EitherMethodReturnValueHandler(handler, objectMapper)
+              EitherMethodReturnValueHandler(handler, adapter.messageConverters)
           else -> handler
         }
       }
