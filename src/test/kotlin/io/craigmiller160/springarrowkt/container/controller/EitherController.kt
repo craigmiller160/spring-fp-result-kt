@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/either")
 class EitherController {
+
+  // TODO try this:
+  // https://developpaper.com/the-return-value-format-of-springboot-global-controller-is-uniform/
   @GetMapping("/success")
   fun success(): Either<Throwable, SuccessResponse> = Either.Right(SuccessResponse("Hello World"))
 
