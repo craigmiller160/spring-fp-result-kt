@@ -25,7 +25,17 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps the Right value and returns as 200 response, non-JSON content type`() {
-    TODO("Finish this")
+    mockMvc.get("/either/success/xml").andExpect {
+      status { isOk() }
+      content {
+        xml(
+            """
+        <successResponse>
+          <message>Hello World</message>
+        </successResponse>
+      """.trimIndent())
+      }
+    }
   }
 
   @Test

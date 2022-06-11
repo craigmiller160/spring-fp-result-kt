@@ -13,6 +13,7 @@ class EitherMethodReturnValueHandler(
     private val delegate: HandlerMethodReturnValueHandler,
     private val objectMapper: ObjectMapper
 ) : HandlerMethodReturnValueHandler {
+  // TODO review and clean up all of this
   override fun supportsReturnType(returnType: MethodParameter): Boolean {
     // TODO consider enhancing this
     return delegate.supportsReturnType(returnType)
