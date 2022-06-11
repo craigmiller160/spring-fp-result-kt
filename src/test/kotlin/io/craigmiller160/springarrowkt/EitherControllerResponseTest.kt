@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
@@ -16,7 +17,10 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps the Right value and returns as 200 response`() {
-    TODO("Finish this")
+    mockMvc.get("/either/success").andExpect {
+      status { isOk() }
+      content { json("""{"message": "Hello World"}""") }
+    }
   }
 
   @Test
