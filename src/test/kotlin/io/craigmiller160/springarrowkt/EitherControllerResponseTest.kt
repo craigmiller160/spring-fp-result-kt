@@ -1,5 +1,6 @@
 package io.craigmiller160.springarrowkt
 
+import io.craigmiller160.springarrowkt.container.TestApplication
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -10,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@SpringBootTest
+@SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
 @AutoConfigureMockMvc
 class EitherControllerResponseTest {
