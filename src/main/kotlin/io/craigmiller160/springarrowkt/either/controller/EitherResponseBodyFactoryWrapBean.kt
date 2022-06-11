@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt
+package io.craigmiller160.springarrowkt.either.controller
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Component
@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor
 
 @Component
-class ResponseBodyWrapFactoryBean(private val adapter: RequestMappingHandlerAdapter) :
+class EitherResponseBodyFactoryWrapBean(private val adapter: RequestMappingHandlerAdapter) :
     InitializingBean {
   // TODO this approach needs to be flexible to support existing customizations here
 
