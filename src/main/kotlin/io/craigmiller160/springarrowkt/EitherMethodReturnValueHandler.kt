@@ -49,7 +49,7 @@ class EitherMethodReturnValueHandler(
     val response = (webRequest.nativeResponse as HttpServletResponse)
     // TODO need to support non-json responses
     val json = objectMapper.writeValueAsString(responseEntity.body)
-    response.status = 201
+    response.status = responseEntity.statusCodeValue
     responseEntity.headers
         .asSequence()
         .flatMap { entry -> entry.value.asSequence().map { entry.key to it } }
