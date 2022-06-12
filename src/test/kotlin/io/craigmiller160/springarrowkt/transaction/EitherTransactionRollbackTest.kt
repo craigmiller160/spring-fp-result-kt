@@ -15,7 +15,7 @@ class EitherTransactionRollbackTest {
   @Autowired private lateinit var personRepository: PersonRepository
   @Test
   fun practice() {
-    val person = Person("Bob", 33)
+    val person = Person(name = "Bob", age = 33)
     personRepository.save(person)
     personRepository.findAll().forEach { println(it) }
   }

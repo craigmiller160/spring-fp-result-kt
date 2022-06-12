@@ -7,8 +7,9 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "person")
-class Person(val name: String, val age: Int) {
-  @Id val id = UUID.randomUUID()
-
-  var phone: String? = null
-}
+data class Person(
+    @Id val id: UUID = UUID.randomUUID(),
+    val name: String,
+    val age: Int,
+    val phone: String? = null
+)
