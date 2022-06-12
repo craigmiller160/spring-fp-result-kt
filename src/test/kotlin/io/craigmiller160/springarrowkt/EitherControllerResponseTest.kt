@@ -29,7 +29,8 @@ class EitherControllerResponseTest {
   fun `unwraps the Right value when there is no body and returns as 200 response`() {
     mockMvc.get("/either/success/empty").andExpect {
       status { isOk() }
-      content { json("""{"message": "Hello World"}""") }
+      header { doesNotExist("content-type") }
+      content { string("") }
     }
   }
 
