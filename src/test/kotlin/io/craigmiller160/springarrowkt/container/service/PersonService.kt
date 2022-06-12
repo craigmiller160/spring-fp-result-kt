@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service
 class PersonService(private val personRepository: PersonRepository) {
   @Transactional
   fun javaxSaveAndCommit(person: Person): Either<Throwable, Person> =
-      Either.Right(personRepository.save(person))
+      Either.Right(personRepository.saveAndFlush(person))
 
   @Transactional
   fun javaxSaveAndRollback(person: Person): Either<Throwable, Person> {
-    personRepository.save(person)
+    personRepository.saveAndFlush(person)
     return Either.Left(RuntimeException("Dying"))
   }
 
   @org.springframework.transaction.annotation.Transactional
   fun springSaveAndCommit(person: Person): Either<Throwable, Person> =
-      Either.Right(personRepository.save(person))
+      Either.Right(personRepository.saveAndFlush(person))
 
   @org.springframework.transaction.annotation.Transactional
   fun springSaveAndRollback(person: Person): Either<Throwable, Person> {
-    personRepository.save(person)
+    personRepository.saveAndFlush(person)
     return Either.Left(RuntimeException("Dying"))
   }
 }

@@ -8,6 +8,7 @@ import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import javax.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,7 +28,7 @@ class EitherTransactionRollbackTest {
     personRepository.deleteAll()
   }
 
-  @BeforeEach
+  @AfterEach
   fun cleanup() {
     personRepository.deleteAll()
   }
