@@ -33,18 +33,28 @@ class EitherTransactionRollbackTest {
   }
 
   @Test
-  fun `commit if Right returned`() {
+  fun `javax - commit if Right returned`() {
     val person = Person(name = "Bob", age = 20)
-    val result = personService.saveAndCommit(person)
+    val result = personService.javaxSaveAndCommit(person)
     result.shouldBeRight(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
 
   @Test
-  fun `rollback if Left returned`() {
+  fun `javax - rollback if Left returned`() {
     val person = Person(name = "John", age = 30)
-    val result = personService.saveAndRollback(person)
+    val result = personService.javaxSaveAndRollback(person)
     result.shouldBeLeft(RuntimeException("Dying"))
     assertThat(personRepository.findById(person.id)).isEmpty
+  }
+
+  @Test
+  fun `spring - commit if Right returned`() {
+    TODO()
+  }
+
+  @Test
+  fun `spring - rollback if Left returned`() {
+    TODO()
   }
 }
