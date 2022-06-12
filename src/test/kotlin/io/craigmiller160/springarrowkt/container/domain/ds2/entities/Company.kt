@@ -8,4 +8,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "company")
-data class Company(@Id @Column(columnDefinition = "uuid") val id: UUID, val name: String)
+data class Company(
+    @Id @Column(columnDefinition = "uuid") val id: UUID = UUID.randomUUID(),
+    val name: String
+)
