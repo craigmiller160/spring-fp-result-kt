@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
     basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds1.repositories"],
     entityManagerFactoryRef = "dataSourceOneEntityManagerFactoryBean",
     transactionManagerRef = "dataSourceOneTransactionManager")
-class DataSourceOneConfig {
+class H2DataSourceOneConfig {
   @Bean
   @Primary
   fun dataSourceOneConfig() =
