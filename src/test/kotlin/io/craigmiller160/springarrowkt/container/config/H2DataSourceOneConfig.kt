@@ -38,6 +38,7 @@ class H2DataSourceOneConfig {
         setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds1.entities")
         val adapter = HibernateJpaVendorAdapter()
         jpaVendorAdapter = adapter
+        setJpaPropertyMap(mapOf("hibernate.hbm2ddl.auto" to "create"))
       }
 
   @Bean
