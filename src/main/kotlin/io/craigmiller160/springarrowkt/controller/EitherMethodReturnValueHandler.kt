@@ -57,7 +57,7 @@ class EitherMethodReturnValueHandler(
     responseEntity.headers
         .asSequence()
         .flatMap { entry -> entry.value.asSequence().map { entry.key to it } }
-        .forEach { (key, value) -> response.setHeader(key, value) }
+        .forEach { (key, value) -> response.addHeader(key, value) }
 
     if (responseEntity.hasBody() && responseEntity.body !is Unit) {
       @Suppress("UNCHECKED_CAST")
