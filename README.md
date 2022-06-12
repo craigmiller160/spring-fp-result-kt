@@ -90,5 +90,10 @@ The default behavior of Spring is to only rollback an `@Transactional` transacti
 With this library, Spring will recognize `Either`-wrapped failures and perform a rollback.
 
 ```kotlin
-
+/**
+ * If the return value is a Right, Spring will do its normal Transactional behavior.
+ * If the return value is a Left, Spring will roll back the Transaction.
+ */
+@Transactional
+fun operation(): Either<Throwable, Value> = /* ... */
 ```
