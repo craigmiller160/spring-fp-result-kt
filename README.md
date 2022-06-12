@@ -43,6 +43,12 @@ implementation("io.github.craigmiller160:spring-arrow-kt:1.0.0")
 
 </details>
 
+Once it is on the classpath, Spring AutoConfiguration will do the rest.
+
+## A Note On Eithers
+
+This library treats the `Either` type exclusively as an error-handling container. It assumes that any `Left` value is an error, even if it is not of type `Throwable`. In the future this may be made configurable to support certain non-error scenarios.
+
 ## Features
 
 This is still an early build of this library with a narrow feature set. More features can be added in the future.
@@ -51,6 +57,30 @@ This is still an early build of this library with a narrow feature set. More fea
    1. [Controller Responses](#either---controller-responses)
    2. Transaction Rollbacks
 
-## Either - Controller Responses
+### Either - Controller Responses
 
-## Either - Transaction Rollbacks
+When a Spring `RestController` returns a response object, that object is serialized to JSON. Spring only recognizes failures that are thrown exceptions, so an `Either` returned from a controller will simply be serialized and returned as a 200 response.
+
+With this library, an `Either` returned from a controller is automatically unwrapped and handled behind the scenes.
+
+```kotlin
+/**
+ * If the return value is a Right, the request returns a 200 response with the value of Body
+ * If the return value is a Left, the exception will be thrown
+ */
+@GetMapping("/path")
+fun request(): Either<Throwable, Body> = /* ... */
+```
+
+For customized responses, an `Either` wrapping around a `ResponseEntity` will also be gracefully handled.
+
+```kotlin
+/**
+ * If the return value is a Right, the ResponseEntity will be returned.
+ * If the return value is a Left, the exception will be thrown.
+ */
+@GetMapping("/path")
+fun request(): Either<Throwable,ResposneEntity<Body>> = /* ... */
+```
+
+### Either - Transaction Rollbacks
