@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt
+package io.craigmiller160.springarrowkt.controller
 
 import io.craigmiller160.springarrowkt.container.TestApplication
 import org.hamcrest.Matchers.equalTo

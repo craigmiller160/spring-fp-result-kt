@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt.either.controller
+package io.craigmiller160.springarrowkt.controller
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Component

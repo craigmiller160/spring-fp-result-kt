@@ -7,5 +7,5 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 @Configuration
 @ConditionalOnClass(RequestMappingHandlerAdapter::class)
-@ComponentScan(basePackages = ["io.craigmiller160.springarrowkt.either.controller"])
-class SpringArrowKtAutoConfiguration
+@ComponentScan(basePackages = ["io.craigmiller160.springarrowkt.controller"])
+class SpringArrowKtControllerAutoConfiguration

@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt.either.controller
+package io.craigmiller160.springarrowkt.controller
 
 import arrow.core.Either
 import java.io.ByteArrayOutputStream
