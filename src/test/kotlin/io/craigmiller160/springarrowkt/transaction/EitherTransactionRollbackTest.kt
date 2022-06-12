@@ -21,6 +21,8 @@ class EitherTransactionRollbackTest {
   @Autowired private lateinit var personService: PersonService
   @Autowired private lateinit var personRepository: PersonRepository
 
+  // TODO what about multiple dataSources?
+
   @BeforeEach
   fun setup() {
     personRepository.deleteAll()
