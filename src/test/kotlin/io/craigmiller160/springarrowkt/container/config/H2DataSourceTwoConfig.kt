@@ -2,6 +2,7 @@ package io.craigmiller160.springarrowkt.container.config
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -28,11 +29,14 @@ class H2DataSourceTwoConfig {
 
   @Bean
   @Primary
-  fun dataSourceTwo(dataSourceTwoConfig: HikariConfig) = HikariDataSource(dataSourceTwoConfig)
+  fun dataSourceTwo(@Qualifier("dataSourceTwoConfig") dataSourceTwoConfig: HikariConfig) =
+      HikariDataSource(dataSourceTwoConfig)
 
   @Bean
   @Primary
-  fun dataSourceTwoEntityManagerFactoryBean(dataSourceTwo: HikariDataSource) =
+  fun dataSourceTwoEntityManagerFactoryBean(
+      @Qualifier("dataSourceTwo") dataSourceTwo: HikariDataSource
+  ) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceTwo
         setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds2.entities")
@@ -43,9 +47,10 @@ class H2DataSourceTwoConfig {
 
   @Bean
   fun dataSourceTwoTransactionManager(
-      dataSourceOneEntityManagerFactoryBean: LocalContainerEntityManagerFactoryBean
+      @Qualifier("dataSourceTwoEntityManagerFactoryBean")
+      dataSourceTwoEntityManagerFactoryBean: LocalContainerEntityManagerFactoryBean
   ) =
       JpaTransactionManager().apply {
-        entityManagerFactory = dataSourceOneEntityManagerFactoryBean.`object`
+        entityManagerFactory = dataSourceTwoEntityManagerFactoryBean.`object`
       }
 }
