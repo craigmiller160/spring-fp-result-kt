@@ -1,8 +1,8 @@
 package io.craigmiller160.springarrowkt.container.service
 
 import arrow.core.Either
-import io.craigmiller160.springarrowkt.container.Person
-import io.craigmiller160.springarrowkt.container.PersonRepository
+import io.craigmiller160.springarrowkt.container.domain.Person
+import io.craigmiller160.springarrowkt.container.domain.PersonRepository
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
