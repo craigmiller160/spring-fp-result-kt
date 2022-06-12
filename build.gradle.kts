@@ -24,6 +24,7 @@ repositories {
 
 dependencies {
     val arrowVersion = "1.0.1"
+    val kotestArrowVersion = "1.2.5"
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -33,6 +34,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("io.arrow-kt:arrow-core-jvm:$arrowVersion")
     testImplementation("com.h2database:h2")
+    implementation("io.kotest.extensions:kotest-assertions-arrow-jvm:$kotestArrowVersion")
 }
 
 tasks {
