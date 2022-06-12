@@ -83,8 +83,12 @@ tasks {
         }
     }
 
-    withType<Test> {
+    test {
         useJUnitPlatform()
+    }
+
+    bootJar {
+        enabled = false
     }
 }
 
