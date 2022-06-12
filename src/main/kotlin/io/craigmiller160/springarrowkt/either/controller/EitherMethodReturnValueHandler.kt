@@ -58,7 +58,7 @@ class EitherMethodReturnValueHandler(
         .flatMap { entry -> entry.value.asSequence().map { entry.key to it } }
         .forEach { (key, value) -> response.setHeader(key, value) }
 
-    if (responseEntity.hasBody()) {
+    if (responseEntity.hasBody() && responseEntity.body !is Unit) {
       @Suppress("UNCHECKED_CAST")
       val converter: HttpMessageConverter<Any> =
           messageConverters.find { converter ->

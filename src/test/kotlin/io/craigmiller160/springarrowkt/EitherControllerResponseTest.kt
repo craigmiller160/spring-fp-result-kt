@@ -75,7 +75,14 @@ class EitherControllerResponseTest {
 
   @Test
   fun `unwraps the Right ResponseEntity value with no body and 204 status and returns it`() {
-    TODO("Finish this")
+    mockMvc.get("/either/response-entity/empty").andExpect {
+      status { isEqualTo(204) }
+      header {
+        string("Foo", equalTo("Bar"))
+        doesNotExist("content-type")
+      }
+      content { string("") }
+    }
   }
 
   @Test

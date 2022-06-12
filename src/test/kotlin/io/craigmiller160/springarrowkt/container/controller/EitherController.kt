@@ -25,6 +25,10 @@ class EitherController {
       Either.Right(
           ResponseEntity.status(201).header("Foo", "Bar").body(SuccessResponse("Hello World")))
 
+  @GetMapping("/response-entity/empty")
+  fun responseEntityEmptyBody(): Either<Throwable, ResponseEntity<Nothing>> =
+      Either.Right(ResponseEntity.noContent().header("Foo", "Bar").build())
+
   @GetMapping("/response-entity/xml")
   fun responseEntityXml(): Either<Throwable, ResponseEntity<SuccessResponse>> =
       Either.Right(
