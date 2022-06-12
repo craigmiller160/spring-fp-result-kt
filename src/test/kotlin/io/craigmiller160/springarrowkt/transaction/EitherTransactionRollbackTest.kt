@@ -49,11 +49,17 @@ class EitherTransactionRollbackTest {
 
   @Test
   fun `spring - commit if Right returned`() {
-    TODO()
+    val person = Person(name = "Jane", age = 10)
+    val result = personService.springSaveAndCommit(person)
+    result.shouldBeRight(person)
+    assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
 
   @Test
   fun `spring - rollback if Left returned`() {
-    TODO()
+    val person = Person(name = "Sally", age = 40)
+    val result = personService.springSaveAndRollback(person)
+    result.shouldBeLeft(RuntimeException("Dying"))
+    assertThat(personRepository.findById(person.id)).isEmpty
   }
 }
