@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -62,6 +63,36 @@ class EitherTransactionRollbackTest {
     val person = Person(name = "Sally", age = 40)
     val result = personService.springSaveAndRollback(person)
     result.shouldBeLeft(RuntimeException("Dying"))
+    assertThat(personRepository.findById(person.id)).isEmpty
+  }
+
+  @Test
+  fun `javax - no either, commit if no exception`() {
+    val person = Person(name = "Jimmy", age = 50)
+    val result = personService.javaxNoEitherSaveAndCommit(person)
+    assertThat(result).isEqualTo(person)
+    assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
+  }
+
+  @Test
+  fun `spring - no either, commit if no exception`() {
+    val person = Person(name = "Jimmy", age = 60)
+    val result = personService.springNoEitherSaveAndCommit(person)
+    assertThat(result).isEqualTo(person)
+    assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
+  }
+
+  @Test
+  fun `javax - no either, rollback if exception`() {
+    val person = Person(name = "Jimmy", age = 70)
+    assertThrows<RuntimeException> { personService.javaxNoEitherSaveAndRollback(person) }
+    assertThat(personRepository.findById(person.id)).isEmpty
+  }
+
+  @Test
+  fun `spring - no either, rollback if exception`() {
+    val person = Person(name = "Jimmy", age = 80)
+    assertThrows<RuntimeException> { personService.springNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
   }
 }
