@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt.container.domain.ds1
+package io.craigmiller160.springarrowkt.container.domain.ds1.entities
 
 import java.util.UUID
 import javax.persistence.Column

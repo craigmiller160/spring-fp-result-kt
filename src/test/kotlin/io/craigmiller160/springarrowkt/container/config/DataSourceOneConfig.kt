@@ -12,7 +12,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds1"],
+    basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds1.repositories"],
     entityManagerFactoryRef = "dataSourceOneEntityManagerFactoryBean",
     transactionManagerRef = "dataSourceOneTransactionManager")
 class DataSourceOneConfig {
@@ -35,6 +35,7 @@ class DataSourceOneConfig {
   fun dataSourceOneEntityManagerFactoryBean(dataSourceOne: HikariDataSource) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceOne
+        setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds1.entities")
         val adapter = HibernateJpaVendorAdapter()
         jpaVendorAdapter = adapter
       }

@@ -1,8 +1,8 @@
 package io.craigmiller160.springarrowkt.transaction
 
 import io.craigmiller160.springarrowkt.container.TestApplication
-import io.craigmiller160.springarrowkt.container.domain.ds1.Person
-import io.craigmiller160.springarrowkt.container.domain.ds1.PersonRepository
+import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
+import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import io.craigmiller160.springarrowkt.container.service.PersonService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
