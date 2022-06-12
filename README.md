@@ -10,10 +10,47 @@ In general, the recommended solution to this ends up being either write OOP-styl
 
 That is what this library strives to accomplish. Its goal is to streamline the rough edges and allow developers to use the FP constructs in `arrow-kt` with Spring and everything will just work.
 
+## Installing
+
+This library can be found on Maven Central. The `###` refers to the version number.
+
+<details>
+<summary>Maven</summary>
+
+```xml
+<dependency>
+    <groupId>io.github.craigmiller160</groupId>
+    <artifactId>spring-arrow-kt</artifactId>
+    <version>###</version>
+</dependency>
+```
+
+</details>
+<details>
+<summary>Gradle (Groovy)</summary>
+
+```groovy
+implementation 'io.github.craigmiller160:spring-arrow-kt:###'
+```
+
+</details>
+<details>
+<summary>Gradle (Kotlin)</summary>
+
+```kotlin
+implementation("io.github.craigmiller160:spring-arrow-kt:###")
+```
+
+</details>
+
 ## Features
 
 This is still an early build of this library with a narrow feature set. More features can be added in the future.
 
 1. Either
-   1. Controller Responses
+   1. [Controller Responses](#either---controller-responses)
    2. Transaction Rollbacks
+
+## Either - Controller Responses
+
+## Either - Transaction Rollbacks
