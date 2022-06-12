@@ -15,12 +15,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 class EitherTransactionAdvice {
   @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
 
-  @Pointcut("@annotation(jakarta.transaction.Transactional)") fun jakartaTransactional() {}
-
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
   fun springTransactional() {}
 
-  @Around("javaxTransactional() || springTransactional() || jakartaTransactional()")
+  @Around("javaxTransactional() || springTransactional()")
   fun handleEitherReturnValue(joinPoint: ProceedingJoinPoint): Any? {
     val result = joinPoint.proceed()
     if (result is Either.Left<*> && TransactionSynchronizationManager.isActualTransactionActive()) {
