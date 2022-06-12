@@ -6,7 +6,6 @@ import io.craigmiller160.springarrowkt.container.TestApplication
 import io.craigmiller160.springarrowkt.container.service.PersonService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import javax.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -21,16 +20,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 class EitherTransactionRollbackTest {
   @Autowired private lateinit var personService: PersonService
   @Autowired private lateinit var personRepository: PersonRepository
-  @Autowired private lateinit var entityManager: EntityManager
 
   @BeforeEach
   fun setup() {
-    //    personRepository.deleteAll()
+    personRepository.deleteAll()
   }
 
   @AfterEach
   fun cleanup() {
-    //    personRepository.deleteAll()
+    personRepository.deleteAll()
   }
 
   @Test
