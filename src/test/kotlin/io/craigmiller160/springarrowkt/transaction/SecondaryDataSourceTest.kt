@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
-class MultiDataSourceVerificationTest {
+class SecondaryDataSourceTest {
   @Autowired private lateinit var companyService: CompanyTransactionService
   @Autowired private lateinit var companyRepository: CompanyRepository
 
@@ -35,5 +35,15 @@ class MultiDataSourceVerificationTest {
     val result = companyService.save(company)
     assertThat(result).isEqualTo(company)
     assertThat(companyRepository.findById(company.id)).isPresent.get().isEqualTo(company)
+  }
+
+  @Test
+  fun `default spring nested transaction partial rollback behavior`() {
+    val company = Company(name = "Special")
+    val (company1, company2) = companyService.nestedSave(company)
+    assertThat(company1).isEqualTo(company)
+    assertThat(company2).isNull()
+    val companies = companyRepository.findAll()
+    assertThat(companies).hasSize(1).contains(company)
   }
 }
