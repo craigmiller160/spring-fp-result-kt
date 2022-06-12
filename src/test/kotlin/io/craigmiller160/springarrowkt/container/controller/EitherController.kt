@@ -47,4 +47,10 @@ class EitherController {
 
   @GetMapping("/failure")
   fun failure(): Either<Throwable, SuccessResponse> = Either.Left(RuntimeException("Dying"))
+
+  @GetMapping("/normal-value") fun normalValue(): SuccessResponse = SuccessResponse("Hello World")
+
+  @GetMapping("/normal-response-entity")
+  fun normalResponseEntity(): ResponseEntity<SuccessResponse> =
+      ResponseEntity.status(201).header("Foo", "Bar").body(SuccessResponse("Hello World"))
 }
