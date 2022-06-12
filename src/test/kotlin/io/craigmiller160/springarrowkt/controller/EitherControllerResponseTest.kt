@@ -62,10 +62,7 @@ class EitherControllerResponseTest {
   fun `unwraps the Right ResponseEntity value and returns multiple cookies`() {
     mockMvc.get("/either/response-entity/cookies").andExpect {
       status { isEqualTo(201) }
-      header {
-        string("Set-Cookie", equalTo("Cookie1=Value1"))
-        string("Set-Cookie", equalTo("Cookie2=Value2"))
-      }
+      header { stringValues("Set-Cookie", "Cookie1=Value1", "Cookie2=Value2") }
       content { json("""{"message": "Hello World"}""") }
     }
   }
