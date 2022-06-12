@@ -3,7 +3,8 @@ package io.craigmiller160.springarrowkt.transaction
 import io.craigmiller160.springarrowkt.container.TestApplication
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
-import io.craigmiller160.springarrowkt.container.service.PersonService
+import io.craigmiller160.springarrowkt.container.service.JavaxTransactionPersonService
+import io.craigmiller160.springarrowkt.container.service.SpringTransactionPersonService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +20,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
 class EitherTransactionRollbackTest {
-  @Autowired private lateinit var personService: PersonService
+  @Autowired private lateinit var javaxService: JavaxTransactionPersonService
+  @Autowired private lateinit var springService: SpringTransactionPersonService
   @Autowired private lateinit var personRepository: PersonRepository
 
   @BeforeEach
@@ -35,7 +37,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `javax - commit if Right returned`() {
     val person = Person(name = "Bob", age = 20)
-    val result = personService.javaxSaveAndCommit(person)
+    val result = javaxService.javaxSaveAndCommit(person)
     result.shouldBeRight(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
@@ -43,7 +45,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `javax - rollback if Left returned`() {
     val person = Person(name = "John", age = 30)
-    val result = personService.javaxSaveAndRollback(person)
+    val result = javaxService.javaxSaveAndRollback(person)
     result.shouldBeLeft(RuntimeException("Dying"))
     assertThat(personRepository.findById(person.id)).isEmpty
   }
@@ -51,7 +53,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `spring - commit if Right returned`() {
     val person = Person(name = "Jane", age = 10)
-    val result = personService.springSaveAndCommit(person)
+    val result = springService.springSaveAndCommit(person)
     result.shouldBeRight(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
@@ -59,7 +61,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `spring - rollback if Left returned`() {
     val person = Person(name = "Sally", age = 40)
-    val result = personService.springSaveAndRollback(person)
+    val result = springService.springSaveAndRollback(person)
     result.shouldBeLeft(RuntimeException("Dying"))
     assertThat(personRepository.findById(person.id)).isEmpty
   }
@@ -67,7 +69,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `javax - no either, commit if no exception`() {
     val person = Person(name = "Jimmy", age = 50)
-    val result = personService.javaxNoEitherSaveAndCommit(person)
+    val result = javaxService.javaxNoEitherSaveAndCommit(person)
     assertThat(result).isEqualTo(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
@@ -75,7 +77,7 @@ class EitherTransactionRollbackTest {
   @Test
   fun `spring - no either, commit if no exception`() {
     val person = Person(name = "Jimmy", age = 60)
-    val result = personService.springNoEitherSaveAndCommit(person)
+    val result = springService.springNoEitherSaveAndCommit(person)
     assertThat(result).isEqualTo(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
@@ -83,14 +85,14 @@ class EitherTransactionRollbackTest {
   @Test
   fun `javax - no either, rollback if exception`() {
     val person = Person(name = "Jimmy", age = 70)
-    assertThrows<RuntimeException> { personService.javaxNoEitherSaveAndRollback(person) }
+    assertThrows<RuntimeException> { javaxService.javaxNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
   }
 
   @Test
   fun `spring - no either, rollback if exception`() {
     val person = Person(name = "Jimmy", age = 80)
-    assertThrows<RuntimeException> { personService.springNoEitherSaveAndRollback(person) }
+    assertThrows<RuntimeException> { springService.springNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
   }
 }

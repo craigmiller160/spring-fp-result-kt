@@ -7,7 +7,7 @@ import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
-class PersonService(private val personRepository: PersonRepository) {
+class JavaxTransactionPersonService(private val personRepository: PersonRepository) {
   @Transactional
   fun javaxSaveAndCommit(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.saveAndFlush(person))
@@ -18,30 +18,11 @@ class PersonService(private val personRepository: PersonRepository) {
     return Either.Left(RuntimeException("Dying"))
   }
 
-  @org.springframework.transaction.annotation.Transactional
-  fun springSaveAndCommit(person: Person): Either<Throwable, Person> =
-      Either.Right(personRepository.saveAndFlush(person))
-
-  @org.springframework.transaction.annotation.Transactional
-  fun springSaveAndRollback(person: Person): Either<Throwable, Person> {
-    personRepository.saveAndFlush(person)
-    return Either.Left(RuntimeException("Dying"))
-  }
-
   @Transactional
   fun javaxNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
 
-  @org.springframework.transaction.annotation.Transactional
-  fun springNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
-
   @Transactional
   fun javaxNoEitherSaveAndRollback(person: Person): Person {
-    personRepository.save(person)
-    throw RuntimeException("Dying")
-  }
-
-  @org.springframework.transaction.annotation.Transactional
-  fun springNoEitherSaveAndRollback(person: Person): Person {
     personRepository.save(person)
     throw RuntimeException("Dying")
   }
