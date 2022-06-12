@@ -15,7 +15,8 @@ class EitherController {
   @GetMapping("/success")
   fun success(): Either<Throwable, SuccessResponse> = Either.Right(SuccessResponse("Hello World"))
 
-  //  @ResponseBody
+  @GetMapping("/success/empty") fun successEmptyBody(): Either<Throwable, Unit> = Either.Right(Unit)
+
   @GetMapping("/success/xml", produces = [MediaType.APPLICATION_XML_VALUE])
   fun successXml(): SuccessResponse = SuccessResponse("Hello World")
 
