@@ -27,4 +27,22 @@ class PersonService(private val personRepository: PersonRepository) {
     personRepository.saveAndFlush(person)
     return Either.Left(RuntimeException("Dying"))
   }
+
+  @Transactional
+  fun javaxNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
+
+  @org.springframework.transaction.annotation.Transactional
+  fun springNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
+
+  @Transactional
+  fun javaxNoEitherSaveAndRollback(person: Person): Person {
+    personRepository.save(person)
+    throw RuntimeException("Dying")
+  }
+
+  @org.springframework.transaction.annotation.Transactional
+  fun springNoEitherSaveAndRollback(person: Person): Person {
+    personRepository.save(person)
+    throw RuntimeException("Dying")
+  }
 }
