@@ -1,4 +1,4 @@
-package io.craigmiller160.springarrowkt.domain
+package io.craigmiller160.springarrowkt.container
 
 import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
