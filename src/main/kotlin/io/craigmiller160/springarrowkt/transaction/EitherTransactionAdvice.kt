@@ -29,6 +29,7 @@ class EitherTransactionAdvice {
   }
 
   private fun rollbackTransaction() {
+    // TODO see if this can be more efficient
     val connectionHolder =
         TransactionSynchronizationManager.getResourceMap()
             .entries
