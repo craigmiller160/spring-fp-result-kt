@@ -1,8 +1,7 @@
 package io.craigmiller160.springarrowkt.transaction
 
-import io.craigmiller160.springarrowkt.container.Person
-import io.craigmiller160.springarrowkt.container.PersonRepository
 import io.craigmiller160.springarrowkt.container.TestApplication
+import io.craigmiller160.springarrowkt.container.service.PersonService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,11 +11,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
 class EitherTransactionRollbackTest {
-  @Autowired private lateinit var personRepository: PersonRepository
+  @Autowired private lateinit var personService: PersonService
+
   @Test
-  fun practice() {
-    val person = Person(name = "Bob", age = 33)
-    personRepository.save(person)
-    personRepository.findAll().forEach { println(it) }
+  fun `commit if Right returned`() {
+    TODO()
+  }
+
+  @Test
+  fun `rollback if Left returned`() {
+    TODO("")
   }
 }
