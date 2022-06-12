@@ -12,7 +12,7 @@ That is what this library strives to accomplish. Its goal is to streamline the r
 
 ## Installing
 
-This library can be found on Maven Central. The `###` refers to the version number.
+This library can be found on Maven Central.
 
 <details>
 <summary>Maven</summary>
@@ -21,7 +21,7 @@ This library can be found on Maven Central. The `###` refers to the version numb
 <dependency>
     <groupId>io.github.craigmiller160</groupId>
     <artifactId>spring-arrow-kt</artifactId>
-    <version>###</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ This library can be found on Maven Central. The `###` refers to the version numb
 <summary>Gradle (Groovy)</summary>
 
 ```groovy
-implementation 'io.github.craigmiller160:spring-arrow-kt:###'
+implementation 'io.github.craigmiller160:spring-arrow-kt:1.0.0'
 ```
 
 </details>
@@ -38,7 +38,7 @@ implementation 'io.github.craigmiller160:spring-arrow-kt:###'
 <summary>Gradle (Kotlin)</summary>
 
 ```kotlin
-implementation("io.github.craigmiller160:spring-arrow-kt:###")
+implementation("io.github.craigmiller160:spring-arrow-kt:1.0.0")
 ```
 
 </details>
