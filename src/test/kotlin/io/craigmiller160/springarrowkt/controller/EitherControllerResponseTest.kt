@@ -102,4 +102,21 @@ class EitherControllerResponseTest {
       content { json("""{"errorMessage":"Dying"}""") }
     }
   }
+
+  @Test
+  fun `returns non-either value normally`() {
+    mockMvc.get("/either/normal-value").andExpect {
+      status { isOk() }
+      content { json("""{"message": "Hello World"}""") }
+    }
+  }
+
+  @Test
+  fun `returns non-either ResponseEntity normally`() {
+    mockMvc.get("/either/normal-response-entity").andExpect {
+      status { isEqualTo(201) }
+      header { string("Foo", equalTo("Bar")) }
+      content { json("""{"message": "Hello World"}""") }
+    }
+  }
 }
