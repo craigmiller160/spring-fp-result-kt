@@ -25,12 +25,12 @@ class EitherTransactionRollbackTest {
 
   @BeforeEach
   fun setup() {
-    personRepository.deleteAll()
+    //    personRepository.deleteAll()
   }
 
   @AfterEach
   fun cleanup() {
-    personRepository.deleteAll()
+    //    personRepository.deleteAll()
   }
 
   @Test
