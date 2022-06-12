@@ -2,9 +2,9 @@ package io.craigmiller160.springarrowkt.container.config
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
@@ -17,7 +17,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
     transactionManagerRef = "dataSourceOneTransactionManager")
 class H2DataSourceOneConfig {
   @Bean
-  @Primary
   fun dataSourceOneConfig() =
       HikariConfig().apply {
         driverClassName = "org.h2.Driver"
@@ -27,12 +26,13 @@ class H2DataSourceOneConfig {
       }
 
   @Bean
-  @Primary
-  fun dataSourceOne(dataSourceOneConfig: HikariConfig) = HikariDataSource(dataSourceOneConfig)
+  fun dataSourceOne(@Qualifier("dataSourceOneConfig") dataSourceOneConfig: HikariConfig) =
+      HikariDataSource(dataSourceOneConfig)
 
   @Bean
-  @Primary
-  fun dataSourceOneEntityManagerFactoryBean(dataSourceOne: HikariDataSource) =
+  fun dataSourceOneEntityManagerFactoryBean(
+      @Qualifier("dataSourceOne") dataSourceOne: HikariDataSource
+  ) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceOne
         setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds1.entities")
@@ -43,6 +43,7 @@ class H2DataSourceOneConfig {
 
   @Bean
   fun dataSourceOneTransactionManager(
+      @Qualifier("dataSourceOneEntityManagerFactoryBean")
       dataSourceOneEntityManagerFactoryBean: LocalContainerEntityManagerFactoryBean
   ) =
       JpaTransactionManager().apply {
