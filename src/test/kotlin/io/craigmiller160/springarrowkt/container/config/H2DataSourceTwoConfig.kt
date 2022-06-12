@@ -12,8 +12,11 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 @EnableJpaRepositories(
     basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds2.repositories"],
     entityManagerFactoryRef = "dataSourceTwoEntityManagerFactoryBean",
-    transactionManagerRef = "dataSourceTwoTransactionManager")
+    transactionManagerRef = H2DataSourceTwoConfig.TXN_MANAGER)
 class H2DataSourceTwoConfig {
+  companion object {
+    const val TXN_MANAGER = "dataSourceTwoTransactionManager"
+  }
   @Bean
   fun dataSourceTwoConfig() =
       HikariConfig().apply {
