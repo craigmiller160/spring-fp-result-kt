@@ -84,3 +84,11 @@ fun request(): Either<Throwable,ResposneEntity<Body>> = /* ... */
 ```
 
 ### Either - Transaction Rollbacks
+
+The default behavior of Spring is to only rollback an `@Transactional` transaction on an exception. However, an `Either` represents a potential fail condition that doesn't involve throwing an exception.
+
+With this library, Spring will recognize `Either`-wrapped failures and perform a rollback.
+
+```kotlin
+
+```
