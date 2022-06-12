@@ -64,4 +64,24 @@ class EitherTransactionRollbackTest {
     result.shouldBeLeft(RuntimeException("Dying"))
     assertThat(personRepository.findById(person.id)).isEmpty
   }
+
+  @Test
+  fun `javax - no either, commit if no exception`() {
+    TODO()
+  }
+
+  @Test
+  fun `spring - no either, commit if no exception`() {
+    TODO()
+  }
+
+  @Test
+  fun `javax - no either, rollback if exception`() {
+    TODO()
+  }
+
+  @Test
+  fun `spring - no either, rollback if exception`() {
+    TODO()
+  }
 }
