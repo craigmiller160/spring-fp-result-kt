@@ -25,6 +25,14 @@ class EitherController {
       Either.Right(
           ResponseEntity.status(201).header("Foo", "Bar").body(SuccessResponse("Hello World")))
 
+  @GetMapping("/response-entity/cookies")
+  fun responseEntityCookies(): Either<Throwable, ResponseEntity<SuccessResponse>> =
+      Either.Right(
+          ResponseEntity.status(201)
+              .header("Set-Cookie", "Cookie1=Value1")
+              .header("Set-Cookie", "Cookie2=Value2")
+              .body(SuccessResponse("Hello World")))
+
   @GetMapping("/response-entity/empty")
   fun responseEntityEmptyBody(): Either<Throwable, ResponseEntity<Nothing>> =
       Either.Right(ResponseEntity.noContent().header("Foo", "Bar").build())
