@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.craigmiller160.springarrowkt.SpringArrowKtControllerAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.craigmiller160.springarrowkt.SpringArrowKtControllerAutoConfiguration
