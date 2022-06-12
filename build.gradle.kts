@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.craigmiller160"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
