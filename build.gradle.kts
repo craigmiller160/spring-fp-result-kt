@@ -26,15 +26,27 @@ dependencies {
     val arrowVersion = "1.0.1"
     val kotestArrowVersion = "1.2.5"
 
-    compileOnly("org.springframework.boot:spring-boot-starter-data-jpa")
-    compileOnly("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    compileOnly("io.arrow-kt:arrow-core-jvm:$arrowVersion")
     testImplementation("com.h2database:h2")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:$kotestArrowVersion")
+
+    val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa"
+    compileOnly(springDataJpa)
+    testImplementation(springDataJpa)
+
+    val springWeb = "org.springframework.boot:spring-boot-starter-web"
+    compileOnly(springWeb)
+    testImplementation(springWeb)
+
+    val arrowKt = "io.arrow-kt:arrow-core-jvm:$arrowVersion"
+    compileOnly(arrowKt)
+    testImplementation(arrowKt)
+
+    val jacksonModuleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
+    compileOnly(jacksonModuleKotlin)
+    testImplementation(jacksonModuleKotlin)
 }
 
 tasks {
