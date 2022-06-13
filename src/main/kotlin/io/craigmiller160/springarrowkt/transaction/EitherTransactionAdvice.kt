@@ -13,6 +13,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Aspect
 @Component
 class EitherTransactionAdvice {
+  // TODO add logging here
   @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
 
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
