@@ -95,4 +95,14 @@ class EitherTransactionRollbackTest {
     assertThrows<RuntimeException> { springService.springNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
   }
+
+  @Test
+  fun `nested transactional methods, rollback all`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `nested transactional methods, partial rollback`() {
+    TODO("Finish this")
+  }
 }
