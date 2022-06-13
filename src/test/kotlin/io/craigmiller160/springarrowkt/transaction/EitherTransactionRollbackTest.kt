@@ -111,4 +111,9 @@ class EitherTransactionRollbackTest {
     result.shouldBeLeft(RuntimeException("Nested Dying"))
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
+
+  @Test
+  fun `nested transactional methods, all commit`() {
+    TODO("Finish this")
+  }
 }
