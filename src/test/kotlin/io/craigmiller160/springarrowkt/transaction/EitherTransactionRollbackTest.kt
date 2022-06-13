@@ -100,6 +100,7 @@ class EitherTransactionRollbackTest {
   fun `nested transactional methods, rollback all`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = javaxService.javaxNestedSaveAndRollbackAll(person)
+    result.shouldBeLeft(RuntimeException("Nested Dying"))
     assertThat(personRepository.count()).isEqualTo(0)
   }
 
@@ -107,6 +108,7 @@ class EitherTransactionRollbackTest {
   fun `nested transactional methods, partial rollback`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = javaxService.javaxNestedSaveAndPartialRollback(person)
+    result.shouldBeLeft(RuntimeException("Nested Dying"))
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 }
