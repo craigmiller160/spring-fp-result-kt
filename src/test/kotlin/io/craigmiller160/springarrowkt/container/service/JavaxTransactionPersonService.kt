@@ -1,13 +1,18 @@
 package io.craigmiller160.springarrowkt.container.service
 
 import arrow.core.Either
+import arrow.core.redeem
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
+import java.util.UUID
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
-class JavaxTransactionPersonService(private val personRepository: PersonRepository) {
+class JavaxTransactionPersonService(
+    private val personRepository: PersonRepository,
+    private val nestedService: JavaxNestedTransactionPersonService
+) {
   @Transactional
   fun javaxSaveAndCommit(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.saveAndFlush(person))
@@ -25,5 +30,19 @@ class JavaxTransactionPersonService(private val personRepository: PersonReposito
   fun javaxNoEitherSaveAndRollback(person: Person): Person {
     personRepository.save(person)
     throw RuntimeException("Dying")
+  }
+
+  @Transactional
+  fun javaxNestedSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
+    val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+    return nestedService.nestedSaveFailure(newPerson).redeem({ person }, { it })
+  }
+
+  @Transactional
+  fun javaxNestedSaveAndRollbackAll(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
+    val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+    return nestedService.nestedSaveFailure(newPerson)
   }
 }
