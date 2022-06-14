@@ -50,6 +50,7 @@ class SpringTransactionPersonService(
 
   @Transactional(transactionManager = H2DataSourceOneConfig.TXN_MANAGER)
   fun springNestedSaveAndCommitAll(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
     return nestedService.springNestedSaveSuccess(newPerson)
   }

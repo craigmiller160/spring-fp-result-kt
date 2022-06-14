@@ -124,12 +124,19 @@ class EitherTransactionRollbackTest {
 
   @Test
   fun `spring - nested transactional methods, rollback all`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndRollbackAll(person)
+    result.shouldBeLeft(RuntimeException("Nested Dying"))
+    assertThat(personRepository.count()).isEqualTo(0)
   }
 
   @Test
   fun `spring - nested transactional methods, partial rollback, propagation level does not support it`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    assertThrows<UnexpectedRollbackException> {
+      springService.springNestedSaveAndPartialRollback(person)
+    }
+    assertThat(personRepository.count()).isEqualTo(0)
   }
 
   @Test
@@ -139,6 +146,9 @@ class EitherTransactionRollbackTest {
 
   @Test
   fun `spring - nested transactional methods, all commit`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndCommitAll(person)
+    result.isRight()
+    assertThat(personRepository.count()).isEqualTo(2)
   }
 }
