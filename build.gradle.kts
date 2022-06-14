@@ -61,6 +61,7 @@ dependencies {
     testImplementation("org.postgresql:postgresql:$postgresVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
+    testImplementation("com.h2database:h2")
 
 
     val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa"

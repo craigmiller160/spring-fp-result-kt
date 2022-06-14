@@ -14,18 +14,18 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 @EnableJpaRepositories(
     basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds2.repositories"],
     entityManagerFactoryRef = "dataSourceTwoEntityManagerFactoryBean",
-    transactionManagerRef = PostgresDataSourceTwoConfig.TXN_MANAGER)
-class PostgresDataSourceTwoConfig {
+    transactionManagerRef = H2DataSourceTwoConfig.TXN_MANAGER)
+class H2DataSourceTwoConfig {
   companion object {
     const val TXN_MANAGER = "dataSourceTwoTransactionManager"
   }
   @Bean
   fun dataSourceTwoConfig() =
       HikariConfig().apply {
-        driverClassName = "org.postgresql.Driver"
-        jdbcUrl = "jdbc:postgresql://localhost:5432/springarrowtest"
-        username = "postgres"
-        password = "password"
+        driverClassName = "org.h2.Driver"
+        jdbcUrl = "jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"
+        username = "sa"
+        password = "sa"
       }
 
   @Bean
