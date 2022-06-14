@@ -1,6 +1,6 @@
 package io.craigmiller160.springarrowkt.transaction
 
-import io.craigmiller160.springarrowkt.container.TestApplication
+import io.craigmiller160.springarrowkt.BaseTest
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import io.craigmiller160.springarrowkt.container.service.JavaxTransactionPersonService
@@ -13,15 +13,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.UnexpectedRollbackException
 
-@SpringBootTest(classes = [TestApplication::class])
-@ExtendWith(SpringExtension::class)
-class EitherTransactionRollbackTest {
+class EitherTransactionRollbackTest : BaseTest() {
   @Autowired private lateinit var javaxService: JavaxTransactionPersonService
   @Autowired private lateinit var springService: SpringTransactionPersonService
   @Autowired private lateinit var personRepository: PersonRepository
