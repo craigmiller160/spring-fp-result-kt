@@ -15,6 +15,7 @@ class PostgresTestContainer : PostgreSQLContainer<PostgresTestContainer>("postgr
     withUsername("postgres")
     withPassword("password")
     withExposedPorts(containerPort)
+    withReuse(true)
     withCreateContainerCmdModifier { cmd ->
       cmd.withHostConfig(
           HostConfig()
