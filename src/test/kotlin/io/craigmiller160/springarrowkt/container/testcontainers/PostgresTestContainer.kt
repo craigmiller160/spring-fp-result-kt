@@ -7,5 +7,6 @@ class PostgresTestContainer : PostgreSQLContainer<PostgresTestContainer>("postgr
     withDatabaseName("springarrowtest")
     withUsername("postgres")
     withPassword("password")
+    withExposedPorts(5432)
   }
 }
