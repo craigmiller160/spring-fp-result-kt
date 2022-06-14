@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.springframework.jdbc.datasource.ConnectionHolder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.interceptor.TransactionAspectSupport
 import org.springframework.transaction.support.TransactionSynchronizationManager
 
 @Aspect
@@ -38,6 +39,6 @@ class EitherTransactionAdvice {
             ?: throw IllegalStateException(
                 "Cannot find DataSource in TransactionSynchronizationManager resource map")
 
-    connectionHolder.connection.rollback()
+    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
   }
 }
