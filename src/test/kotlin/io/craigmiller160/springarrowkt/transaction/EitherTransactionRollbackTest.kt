@@ -144,7 +144,7 @@ class EitherTransactionRollbackTest {
     val person = Person(name = "Jimmy", age = 90)
     val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
     result.isRight()
-    assertThat(personRepository.count()).isEqualTo(1)
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
   @Test
