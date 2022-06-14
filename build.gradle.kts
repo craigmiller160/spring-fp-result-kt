@@ -51,12 +51,15 @@ repositories {
 dependencies {
     val arrowVersion = "1.0.1"
     val kotestArrowVersion = "1.2.5"
+    val postgresVersion = "42.4.0"
+    val postgresTestcontainersVersion = "1.17.2"
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.h2database:h2")
     testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:$kotestArrowVersion")
+    testImplementation("org.postgresql:postgresql:$postgresVersion")
+    testImplementation("org.testcontainers:postgresql:$postgresTestcontainersVersion")
 
     val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa"
     compileOnly(springDataJpa)
