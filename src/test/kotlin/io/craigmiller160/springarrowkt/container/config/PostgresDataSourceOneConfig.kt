@@ -56,5 +56,6 @@ class PostgresDataSourceOneConfig {
   ) =
       JpaTransactionManager().apply {
         entityManagerFactory = dataSourceOneEntityManagerFactoryBean.`object`
+        isNestedTransactionAllowed = true
       }
 }
