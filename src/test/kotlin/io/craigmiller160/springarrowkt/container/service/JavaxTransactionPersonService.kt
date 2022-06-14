@@ -36,13 +36,19 @@ class JavaxTransactionPersonService(
   fun javaxNestedSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.nestedSaveFailure(newPerson).redeem({ person }, { it })
+    return nestedService.javaxNestedSaveFailure(newPerson).redeem({ person }, { it })
   }
 
   @Transactional
   fun javaxNestedSaveAndRollbackAll(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.nestedSaveFailure(newPerson)
+    return nestedService.javaxNestedSaveFailure(newPerson)
+  }
+
+  @Transactional
+  fun javaxNestedSaveAndCommitAll(person: Person): Either<Throwable, Person> {
+    val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+    return nestedService.javaxNestedSaveSuccess(newPerson)
   }
 }
