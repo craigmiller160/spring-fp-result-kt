@@ -48,6 +48,7 @@ class JavaxTransactionPersonService(
 
   @Transactional
   fun javaxNestedSaveAndCommitAll(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
     return nestedService.javaxNestedSaveSuccess(newPerson)
   }

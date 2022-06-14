@@ -116,7 +116,10 @@ class EitherTransactionRollbackTest {
 
   @Test
   fun `javax - nested transactional methods, all commit`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = javaxService.javaxNestedSaveAndCommitAll(person)
+    result.isRight()
+    assertThat(personRepository.count()).isEqualTo(2)
   }
 
   @Test
