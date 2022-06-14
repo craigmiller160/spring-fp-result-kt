@@ -1,6 +1,6 @@
 package io.craigmiller160.springarrowkt.transaction
 
-import io.craigmiller160.springarrowkt.container.TestApplication
+import io.craigmiller160.springarrowkt.BaseTest
 import io.craigmiller160.springarrowkt.container.domain.ds2.entities.Company
 import io.craigmiller160.springarrowkt.container.domain.ds2.repositories.CompanyRepository
 import io.craigmiller160.springarrowkt.container.service.CompanyTransactionService
@@ -8,14 +8,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@SpringBootTest(classes = [TestApplication::class])
-@ExtendWith(SpringExtension::class)
-class SecondaryDataSourceTest {
+class SecondaryDataSourceTest : BaseTest() {
   @Autowired private lateinit var companyService: CompanyTransactionService
   @Autowired private lateinit var companyRepository: CompanyRepository
 
