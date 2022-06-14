@@ -1,18 +1,17 @@
 package io.craigmiller160.springarrowkt.transaction
 
 import arrow.core.Either
-import javax.sql.DataSource
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
-import org.springframework.jdbc.datasource.ConnectionHolder
 import org.springframework.stereotype.Component
-import org.springframework.transaction.support.TransactionSynchronizationManager
+import org.springframework.transaction.interceptor.TransactionAspectSupport
 
 @Aspect
 @Component
 class EitherTransactionAdvice {
+  // TODO add logging here
   @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
 
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
@@ -21,22 +20,17 @@ class EitherTransactionAdvice {
   @Around("javaxTransactional() || springTransactional()")
   fun handleEitherReturnValue(joinPoint: ProceedingJoinPoint): Any? {
     val result = joinPoint.proceed()
-    if (result is Either.Left<*> && TransactionSynchronizationManager.isActualTransactionActive()) {
+    if (result is Either.Left<*> && isTransactionActive()) {
       rollbackTransaction()
     }
 
     return result
   }
 
-  private fun rollbackTransaction() {
-    val connectionHolder =
-        TransactionSynchronizationManager.getResourceMap()
-            .entries
-            .find { entry -> entry.key is DataSource }
-            ?.value as ConnectionHolder?
-            ?: throw IllegalStateException(
-                "Cannot find DataSource in TransactionSynchronizationManager resource map")
+  private fun isTransactionActive(): Boolean =
+      Either.catch { TransactionAspectSupport.currentTransactionStatus() }.fold({ false }, { true })
 
-    connectionHolder.connection.rollback()
+  private fun rollbackTransaction() {
+    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
   }
 }

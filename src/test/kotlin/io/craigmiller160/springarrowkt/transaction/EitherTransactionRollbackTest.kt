@@ -10,12 +10,14 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.UnexpectedRollbackException
 
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
@@ -94,5 +96,64 @@ class EitherTransactionRollbackTest {
     val person = Person(name = "Jimmy", age = 80)
     assertThrows<RuntimeException> { springService.springNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
+  }
+
+  @Test
+  fun `javax - nested transactional methods, rollback all`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = javaxService.javaxNestedSaveAndRollbackAll(person)
+    result.shouldBeLeft(RuntimeException("Nested Dying"))
+    assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `javax - nested transactional methods, partial rollback, not supported by javax`() {
+    val person = Person(name = "Jimmy", age = 90)
+    assertThrows<UnexpectedRollbackException> {
+      javaxService.javaxNestedSaveAndPartialRollback(person)
+    }
+    assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `javax - nested transactional methods, all commit`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = javaxService.javaxNestedSaveAndCommitAll(person)
+    result.isRight()
+    assertThat(personRepository.count()).isEqualTo(2)
+  }
+
+  @Test
+  fun `spring - nested transactional methods, rollback all`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndRollbackAll(person)
+    result.shouldBeLeft(RuntimeException("Nested Dying"))
+    assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `spring - nested transactional methods, partial rollback, propagation level does not support it`() {
+    val person = Person(name = "Jimmy", age = 90)
+    assertThrows<UnexpectedRollbackException> {
+      springService.springNestedSaveAndPartialRollback(person)
+    }
+    assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  @Disabled
+  fun `spring - nested transactional methods, partial rollback, correct propagation level so it succeeds`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
+    result.isRight()
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
+  }
+
+  @Test
+  fun `spring - nested transactional methods, all commit`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndCommitAll(person)
+    result.isRight()
+    assertThat(personRepository.count()).isEqualTo(2)
   }
 }

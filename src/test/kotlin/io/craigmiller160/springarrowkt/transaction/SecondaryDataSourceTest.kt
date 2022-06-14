@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
-class MultiDataSourceVerificationTest {
+class SecondaryDataSourceTest {
   @Autowired private lateinit var companyService: CompanyTransactionService
   @Autowired private lateinit var companyRepository: CompanyRepository
 
