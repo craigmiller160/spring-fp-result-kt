@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.UnexpectedRollbackException
 
 @SpringBootTest(classes = [TestApplication::class])
 @ExtendWith(SpringExtension::class)
@@ -97,7 +98,7 @@ class EitherTransactionRollbackTest {
   }
 
   @Test
-  fun `nested transactional methods, rollback all`() {
+  fun `javax - nested transactional methods, rollback all`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = javaxService.javaxNestedSaveAndRollbackAll(person)
     result.shouldBeLeft(RuntimeException("Nested Dying"))
@@ -105,15 +106,36 @@ class EitherTransactionRollbackTest {
   }
 
   @Test
-  fun `nested transactional methods, partial rollback`() {
+  fun `javax - nested transactional methods, partial rollback, not supported by javax`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = javaxService.javaxNestedSaveAndPartialRollback(person)
-    result.shouldBeRight(person)
-    assertThat(personRepository.findAll()).hasSize(1).contains(person)
+    assertThrows<UnexpectedRollbackException> {
+      javaxService.javaxNestedSaveAndPartialRollback(person)
+    }
+    assertThat(personRepository.count()).isEqualTo(0)
   }
 
   @Test
-  fun `nested transactional methods, all commit`() {
+  fun `javax - nested transactional methods, all commit`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `spring - nested transactional methods, rollback all`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `spring - nested transactional methods, partial rollback, propagation level does not support it`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `spring - nested transactional methods, partial rollback, correct propagation level so it succeeds`() {
+    TODO("Finish this")
+  }
+
+  @Test
+  fun `spring - nested transactional methods, all commit`() {
     TODO("Finish this")
   }
 }
