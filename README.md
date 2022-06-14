@@ -97,3 +97,5 @@ With this library, Spring will recognize `Either`-wrapped failures and perform a
 @Transactional
 fun operation(): Either<Throwable, Value> = /* ... */
 ```
+
+NOTE: Nested transaction support, ie a `@Transactional` method that calls an `@Transactional` method in another class, is complicated in Spring. The underlying JPA implementation needs special support to be able to leverage JDBC savepoints to perform partial transaction rollbacks. For the time being, this library treats any `@Transactional` method that returns a `Left` as triggering a full rollback of the entire transaction flow. It is intended to add better support for nested transactions in a future release.
