@@ -141,7 +141,10 @@ class EitherTransactionRollbackTest {
 
   @Test
   fun `spring - nested transactional methods, partial rollback, correct propagation level so it succeeds`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
+    result.isRight()
+    assertThat(personRepository.count()).isEqualTo(1)
   }
 
   @Test
