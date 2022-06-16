@@ -127,7 +127,7 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `spring - nested transactional methods, partial rollback, propagation level does not support it`() {
+  fun `spring - nested transactional methods, partial rollback, propagation REQUIRED does not support it`() {
     val person = Person(name = "Jimmy", age = 90)
     assertThrows<UnexpectedRollbackException> {
       springService.springNestedSaveAndPartialRollback(person)
@@ -137,7 +137,7 @@ class EitherTransactionRollbackTest : BaseTest() {
 
   @Test
   @Disabled
-  fun `spring - nested transactional methods, partial rollback, correct propagation level so it succeeds`() {
+  fun `spring - nested transactional methods, partial rollback, propagation level NESTED does support it`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
     result.isRight()
