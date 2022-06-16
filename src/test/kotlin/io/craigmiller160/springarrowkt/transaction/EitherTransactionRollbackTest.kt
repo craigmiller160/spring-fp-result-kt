@@ -102,12 +102,17 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - nested transactional methods, partial rollback, not supported by javax`() {
+  fun `javax - nested transactional methods, partial rollback, tx type REQUIRED does not support it`() {
     val person = Person(name = "Jimmy", age = 90)
     assertThrows<UnexpectedRollbackException> {
       javaxService.javaxNestedSaveAndPartialRollback(person)
     }
     assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `javax - nested transactional methods, partial rollback, tx type REQUIRE_NEW does support it`() {
+    TODO("Finish this")
   }
 
   @Test
@@ -133,6 +138,11 @@ class EitherTransactionRollbackTest : BaseTest() {
       springService.springNestedSaveAndPartialRollback(person)
     }
     assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `spring - nested transactional methods, partial rollback, propagation REQUIRE_NEW does support it`() {
+    TODO("Finish this")
   }
 
   @Test
