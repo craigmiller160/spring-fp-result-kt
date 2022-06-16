@@ -112,7 +112,10 @@ class EitherTransactionRollbackTest : BaseTest() {
 
   @Test
   fun `javax - nested transactional methods, partial rollback, tx type REQUIRE_NEW does support it`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = javaxService.javaxNestedRequireNewSaveAndPartialRollback(person)
+    result.shouldBeRight(person)
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
   @Test
