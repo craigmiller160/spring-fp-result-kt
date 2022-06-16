@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
@@ -58,4 +60,13 @@ class H2DataSourceOneConfig {
         entityManagerFactory = dataSourceOneEntityManagerFactoryBean.`object`
         isNestedTransactionAllowed = true
       }
+
+  @Bean
+  fun dataSourceOneJdbcTransactionManager(
+      @Qualifier("dataSourceOne") dataSourceOne: HikariDataSource
+  ) = DataSourceTransactionManager().apply { dataSource = dataSourceOne }
+
+  @Bean
+  fun jdbcTemplate(@Qualifier("dataSourceOne") dataSourceOne: HikariDataSource) =
+      NamedParameterJdbcTemplate(dataSourceOne)
 }
