@@ -10,7 +10,6 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -152,10 +151,9 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  @Disabled
   fun `spring - nested transactional methods, partial rollback, propagation level NESTED does support it`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
+    val result = springService.springNestedJdbcSaveAndPartialRollback(person)
     result.isRight()
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
