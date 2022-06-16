@@ -71,6 +71,7 @@ class SpringTransactionPersonService(
   fun springNestedSaveAndPartialRollbackWithCorrectIsolation(
       person: Person
   ): Either<Throwable, Person> {
+    personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
     return nestedService
         .springNestedSaveFailureWithCorrectIsolation(newPerson)
@@ -80,6 +81,7 @@ class SpringTransactionPersonService(
   @Transactional(
       propagation = Propagation.NESTED, transactionManager = H2DataSourceOneConfig.JDBC_TXN_MANAGER)
   fun springNestedJdbcSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
     return nestedService.springNestedJdbcSaveFailure(newPerson).redeem({ person }, { it })
   }
