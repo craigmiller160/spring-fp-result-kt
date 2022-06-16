@@ -19,18 +19,29 @@ class EitherTransactionAdvice {
 
   @Around("javaxTransactional() || springTransactional()")
   fun handleEitherReturnValue(joinPoint: ProceedingJoinPoint): Any? {
+    val savepoint =
+        if (isTransactionActive() &&
+            TransactionAspectSupport.currentTransactionStatus().supportsSavepoints()) {
+          TransactionAspectSupport.currentTransactionStatus().createSavepoint()
+        } else {
+          null
+        }
+
     val result = joinPoint.proceed()
     if (result is Either.Left<*> && isTransactionActive()) {
-      rollbackTransaction()
+      rollbackTransaction(savepoint)
     }
 
     return result
   }
 
   private fun isTransactionActive(): Boolean =
-      Either.catch { TransactionAspectSupport.currentTransactionStatus() }.fold({ false }, { true })
+      Either.catch { TransactionAspectSupport.currentTransactionStatus() }.isRight()
 
-  private fun rollbackTransaction() {
-    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+  private fun rollbackTransaction(savepoint: Any?) {
+    savepoint?.let {
+      TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savepoint)
+    }
+        ?: TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
   }
 }

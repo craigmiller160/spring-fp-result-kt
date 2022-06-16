@@ -10,7 +10,6 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -102,12 +101,20 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - nested transactional methods, partial rollback, not supported by javax`() {
+  fun `javax - nested transactional methods, partial rollback, tx type REQUIRED does not support it`() {
     val person = Person(name = "Jimmy", age = 90)
     assertThrows<UnexpectedRollbackException> {
       javaxService.javaxNestedSaveAndPartialRollback(person)
     }
     assertThat(personRepository.count()).isEqualTo(0)
+  }
+
+  @Test
+  fun `javax - nested transactional methods, partial rollback, tx type REQUIRE_NEW does support it`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = javaxService.javaxNestedRequireNewSaveAndPartialRollback(person)
+    result.shouldBeRight(person)
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
   @Test
@@ -127,7 +134,7 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `spring - nested transactional methods, partial rollback, propagation level does not support it`() {
+  fun `spring - nested transactional methods, partial rollback, propagation REQUIRED does not support it`() {
     val person = Person(name = "Jimmy", age = 90)
     assertThrows<UnexpectedRollbackException> {
       springService.springNestedSaveAndPartialRollback(person)
@@ -136,11 +143,18 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  @Disabled
-  fun `spring - nested transactional methods, partial rollback, correct propagation level so it succeeds`() {
+  fun `spring - nested transactional methods, partial rollback, propagation REQUIRE_NEW does support it`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = springService.springNestedSaveAndPartialRollbackWithCorrectIsolation(person)
-    result.isRight()
+    val result = springService.springNestedRequireNewSaveAndPartialRollback(person)
+    result.shouldBeRight(person)
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
+  }
+
+  @Test
+  fun `spring - nested transactional methods, partial rollback, propagation level NESTED does support it`() {
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedJdbcSaveAndPartialRollback(person)
+    result.shouldBeRight(person)
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 

@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
@@ -15,18 +17,19 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 @EnableJpaRepositories(
     basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds1.repositories"],
     entityManagerFactoryRef = "dataSourceOneEntityManagerFactoryBean",
-    transactionManagerRef = PostgresDataSourceOneConfig.TXN_MANAGER)
-class PostgresDataSourceOneConfig {
+    transactionManagerRef = H2DataSourceOneConfig.TXN_MANAGER)
+class H2DataSourceOneConfig {
   companion object {
     const val TXN_MANAGER = "dataSourceOneTransactionManager"
+    const val JDBC_TXN_MANAGER = "dataSourceOneJdbcTransactionManager"
   }
   @Bean
   fun dataSourceOneConfig() =
       HikariConfig().apply {
-        driverClassName = "org.postgresql.Driver"
-        jdbcUrl = "jdbc:postgresql://localhost:5432/springarrowtest"
-        username = "postgres"
-        password = "password"
+        driverClassName = "org.h2.Driver"
+        jdbcUrl = "jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"
+        username = "sa"
+        password = "sa"
       }
 
   @Bean
@@ -58,4 +61,13 @@ class PostgresDataSourceOneConfig {
         entityManagerFactory = dataSourceOneEntityManagerFactoryBean.`object`
         isNestedTransactionAllowed = true
       }
+
+  @Bean
+  fun dataSourceOneJdbcTransactionManager(
+      @Qualifier("dataSourceOne") dataSourceOne: HikariDataSource
+  ) = DataSourceTransactionManager().apply { dataSource = dataSourceOne }
+
+  @Bean
+  fun jdbcTemplate(@Qualifier("dataSourceOne") dataSourceOne: HikariDataSource) =
+      NamedParameterJdbcTemplate(dataSourceOne)
 }

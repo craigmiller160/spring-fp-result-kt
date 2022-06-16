@@ -14,6 +14,12 @@ class JavaxNestedTransactionPersonService(private val personRepository: PersonRe
     return Either.Left(RuntimeException("Nested Dying"))
   }
 
+  @Transactional(Transactional.TxType.REQUIRES_NEW)
+  fun javaxNestedRequireNewSaveFailure(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
+    return Either.Left(RuntimeException("Nested Dying"))
+  }
+
   @Transactional
   fun javaxNestedSaveSuccess(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.save(person))
