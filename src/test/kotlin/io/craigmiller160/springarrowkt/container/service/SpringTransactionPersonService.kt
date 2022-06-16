@@ -6,6 +6,7 @@ import io.craigmiller160.springarrowkt.container.config.H2DataSourceOneConfig
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import java.util.UUID
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
@@ -81,7 +82,12 @@ class SpringTransactionPersonService(
   @Transactional(
       propagation = Propagation.NESTED, transactionManager = H2DataSourceOneConfig.JDBC_TXN_MANAGER)
   fun springNestedJdbcSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
-    personRepository.save(person)
+    val params =
+        MapSqlParameterSource()
+            .addValue("id", person.id)
+            .addValue("name", person.name)
+            .addValue("age", person.age)
+    jdbcTemplate.update("INSERT INTO person(id, name, age) VALUES (:id, :name, :age)", params)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
     return nestedService.springNestedJdbcSaveFailure(newPerson).redeem({ person }, { it })
   }
