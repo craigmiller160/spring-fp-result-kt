@@ -154,7 +154,7 @@ class EitherTransactionRollbackTest : BaseTest() {
   fun `spring - nested transactional methods, partial rollback, propagation level NESTED does support it`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = springService.springNestedJdbcSaveAndPartialRollback(person)
-    result.isRight()
+    result.shouldBeRight(person)
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
