@@ -145,7 +145,10 @@ class EitherTransactionRollbackTest : BaseTest() {
 
   @Test
   fun `spring - nested transactional methods, partial rollback, propagation REQUIRE_NEW does support it`() {
-    TODO("Finish this")
+    val person = Person(name = "Jimmy", age = 90)
+    val result = springService.springNestedRequireNewSaveAndPartialRollback(person)
+    result.shouldBeRight(person)
+    assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
   @Test

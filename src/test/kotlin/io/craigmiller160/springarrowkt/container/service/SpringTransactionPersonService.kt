@@ -41,6 +41,15 @@ class SpringTransactionPersonService(
     return nestedService.springNestedSaveFailure(newPerson).redeem({ person }, { it })
   }
 
+  @Transactional(
+      transactionManager = H2DataSourceOneConfig.TXN_MANAGER,
+      propagation = Propagation.REQUIRES_NEW)
+  fun springNestedRequireNewSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
+    val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+    return nestedService.springNestedRequireNewSaveFailure(newPerson).redeem({ person }, { it })
+  }
+
   @Transactional(transactionManager = H2DataSourceOneConfig.TXN_MANAGER)
   fun springNestedSaveAndRollbackAll(person: Person): Either<Throwable, Person> {
     personRepository.save(person)

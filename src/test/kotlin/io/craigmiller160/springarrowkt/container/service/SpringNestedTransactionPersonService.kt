@@ -17,6 +17,14 @@ class SpringNestedTransactionPersonService(private val personRepository: PersonR
     return Either.Left(RuntimeException("Nested Dying"))
   }
 
+  @Transactional(
+      transactionManager = H2DataSourceOneConfig.TXN_MANAGER,
+      propagation = Propagation.REQUIRES_NEW)
+  fun springNestedRequireNewSaveFailure(person: Person): Either<Throwable, Person> {
+    personRepository.save(person)
+    return Either.Left(RuntimeException("Nested Dying"))
+  }
+
   @Transactional(transactionManager = H2DataSourceOneConfig.TXN_MANAGER)
   fun springNestedSaveSuccess(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.save(person))
