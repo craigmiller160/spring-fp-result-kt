@@ -6,6 +6,7 @@ import io.craigmiller160.springarrowkt.container.config.H2DataSourceOneConfig
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import java.util.UUID
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class SpringTransactionPersonService(
     private val personRepository: PersonRepository,
-    private val nestedService: SpringNestedTransactionPersonService
+    private val nestedService: SpringNestedTransactionPersonService,
+    private val jdbcTemplate: JdbcTemplate
 ) {
   @Transactional(transactionManager = H2DataSourceOneConfig.TXN_MANAGER)
   fun springSaveAndCommit(person: Person): Either<Throwable, Person> =
@@ -73,5 +75,12 @@ class SpringTransactionPersonService(
     return nestedService
         .springNestedSaveFailureWithCorrectIsolation(newPerson)
         .redeem({ person }, { it })
+  }
+
+  @Transactional(
+      propagation = Propagation.NESTED, transactionManager = H2DataSourceOneConfig.JDBC_TXN_MANAGER)
+  fun springNestedJdbcSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+    val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+    return nestedService.springNestedJdbcSaveFailure(newPerson).redeem({ person }, { it })
   }
 }

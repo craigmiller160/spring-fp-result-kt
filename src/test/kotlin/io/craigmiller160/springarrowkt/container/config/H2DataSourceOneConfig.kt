@@ -21,6 +21,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 class H2DataSourceOneConfig {
   companion object {
     const val TXN_MANAGER = "dataSourceOneTransactionManager"
+    const val JDBC_TXN_MANAGER = "dataSourceOneJdbcTransactionManager"
   }
   @Bean
   fun dataSourceOneConfig() =
