@@ -6,7 +6,7 @@ import io.craigmiller160.springarrowkt.container.config.H2DataSourceOneConfig
 import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
 import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import java.util.UUID
-import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class SpringTransactionPersonService(
     private val personRepository: PersonRepository,
     private val nestedService: SpringNestedTransactionPersonService,
-    private val jdbcTemplate: JdbcTemplate
+    private val jdbcTemplate: NamedParameterJdbcTemplate
 ) {
   @Transactional(transactionManager = H2DataSourceOneConfig.TXN_MANAGER)
   fun springSaveAndCommit(person: Person): Either<Throwable, Person> =
