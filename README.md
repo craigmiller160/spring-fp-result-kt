@@ -98,4 +98,19 @@ With this library, Spring will recognize `Either`-wrapped failures and perform a
 fun operation(): Either<Throwable, Value> = /* ... */
 ```
 
-NOTE: Nested transaction support, ie a `@Transactional` method that calls an `@Transactional` method in another class, is complicated in Spring. The underlying JPA implementation needs special support to be able to leverage JDBC savepoints to perform partial transaction rollbacks. For the time being, this library treats any `@Transactional` method that returns a `Left` as triggering a full rollback of the entire transaction flow. It is intended to add better support for nested transactions in a future release.
+**NOTE:** When working with `Either`s as opposed to exceptions, it may seem nature to expect a partial transaction to work. For example:
+
+```kotlin
+@Transactional()
+fun doSomethingInTransaction(
+   person: Person
+): Either<Throwable, Person> {
+ personRepository.save(person)
+ val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
+ return nestedService
+     .doSomethingElseInTransaction(newPerson)
+     .redeem({ person }, { it })
+}
+```
+
+In this scenario, it may look that the `nestedService.doSomethingElseInTransaction` would rollback if returning a `Left`, whereas `doSomethingInTransaction` would commit since it returns a `Right`. The catch is that Spring's transaction rules apply here. Spring has limited support for nested transactions and partial rollbacks. The point is simple: if your app is configured so a nested transaction would work with exceptions & try/catch, it'll work with `Either`s via this library. If a nested transaction would not work with exceptions & try/catch, then it still will not work with this library.
