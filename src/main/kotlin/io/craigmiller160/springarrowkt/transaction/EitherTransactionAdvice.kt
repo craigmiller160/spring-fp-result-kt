@@ -32,6 +32,9 @@ class EitherTransactionAdvice {
       rollbackTransaction(savepoint)
     }
 
+    // TODO not sure if this is needed
+    savepoint?.let { TransactionAspectSupport.currentTransactionStatus().releaseSavepoint(it) }
+
     return result
   }
 
