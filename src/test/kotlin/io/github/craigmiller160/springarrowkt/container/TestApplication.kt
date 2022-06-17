@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-@ComponentScan(basePackages = ["io.craigmiller160.springarrowkt"])
+@ComponentScan(basePackages = ["io.github.craigmiller160.springarrowkt.container"])
 class TestApplication
 
 fun main(args: Array<String>) {
