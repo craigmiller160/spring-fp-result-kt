@@ -12,7 +12,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds2.repositories"],
+    basePackages = ["io.github.craigmiller160.springarrowkt.container.domain.ds2.repositories"],
     entityManagerFactoryRef = "dataSourceTwoEntityManagerFactoryBean",
     transactionManagerRef = H2DataSourceTwoConfig.TXN_MANAGER)
 class H2DataSourceTwoConfig {
@@ -38,7 +38,7 @@ class H2DataSourceTwoConfig {
   ) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceTwo
-        setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds2.entities")
+        setPackagesToScan("io.github.craigmiller160.springarrowkt.container.domain.ds2.entities")
         val adapter = HibernateJpaVendorAdapter()
         jpaVendorAdapter = adapter
         setJpaPropertyMap(mapOf("hibernate.hbm2ddl.auto" to "create"))

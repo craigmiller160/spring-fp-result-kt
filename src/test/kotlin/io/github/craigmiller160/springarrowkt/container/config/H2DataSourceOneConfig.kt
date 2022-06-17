@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = ["io.craigmiller160.springarrowkt.container.domain.ds1.repositories"],
+    basePackages = ["io.github.craigmiller160.springarrowkt.container.domain.ds1.repositories"],
     entityManagerFactoryRef = "dataSourceOneEntityManagerFactoryBean",
     transactionManagerRef = H2DataSourceOneConfig.TXN_MANAGER)
 class H2DataSourceOneConfig {
@@ -42,7 +42,7 @@ class H2DataSourceOneConfig {
   ) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceOne
-        setPackagesToScan("io.craigmiller160.springarrowkt.container.domain.ds1.entities")
+        setPackagesToScan("io.github.craigmiller160.springarrowkt.container.domain.ds1.entities")
         val adapter = HibernateJpaVendorAdapter()
         jpaVendorAdapter = adapter
         setJpaPropertyMap(
