@@ -1,6 +1,6 @@
 package io.github.craigmiller160.springarrowkt.controller
 
-import io.craigmiller160.springarrowkt.BaseTest
+import io.github.craigmiller160.springarrowkt.BaseTest
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

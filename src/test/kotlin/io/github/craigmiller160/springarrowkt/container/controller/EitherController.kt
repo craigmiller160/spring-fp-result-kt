@@ -1,7 +1,7 @@
 package io.github.craigmiller160.springarrowkt.container.controller
 
 import arrow.core.Either
-import io.craigmiller160.springarrowkt.container.dto.SuccessResponse
+import io.github.craigmiller160.springarrowkt.container.dto.SuccessResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

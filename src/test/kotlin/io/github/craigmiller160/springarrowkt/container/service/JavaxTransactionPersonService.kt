@@ -2,8 +2,8 @@ package io.github.craigmiller160.springarrowkt.container.service
 
 import arrow.core.Either
 import arrow.core.redeem
-import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
-import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
+import io.github.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
+import io.github.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
 import java.util.UUID
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service

@@ -1,6 +1,6 @@
 package io.github.craigmiller160.springarrowkt.container.controller
 
-import io.craigmiller160.springarrowkt.container.dto.ErrorResponse
+import io.github.craigmiller160.springarrowkt.container.dto.ErrorResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler

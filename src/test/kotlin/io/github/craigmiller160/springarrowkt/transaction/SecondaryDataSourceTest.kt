@@ -1,9 +1,9 @@
 package io.github.craigmiller160.springarrowkt.transaction
 
-import io.craigmiller160.springarrowkt.BaseTest
-import io.craigmiller160.springarrowkt.container.domain.ds2.entities.Company
-import io.craigmiller160.springarrowkt.container.domain.ds2.repositories.CompanyRepository
-import io.craigmiller160.springarrowkt.container.service.CompanyTransactionService
+import io.github.craigmiller160.springarrowkt.BaseTest
+import io.github.craigmiller160.springarrowkt.container.domain.ds2.entities.Company
+import io.github.craigmiller160.springarrowkt.container.domain.ds2.repositories.CompanyRepository
+import io.github.craigmiller160.springarrowkt.container.service.CompanyTransactionService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

@@ -1,10 +1,10 @@
 package io.github.craigmiller160.springarrowkt.transaction
 
-import io.craigmiller160.springarrowkt.BaseTest
-import io.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
-import io.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
-import io.craigmiller160.springarrowkt.container.service.JavaxTransactionPersonService
-import io.craigmiller160.springarrowkt.container.service.SpringTransactionPersonService
+import io.github.craigmiller160.springarrowkt.BaseTest
+import io.github.craigmiller160.springarrowkt.container.domain.ds1.entities.Person
+import io.github.craigmiller160.springarrowkt.container.domain.ds1.repositories.PersonRepository
+import io.github.craigmiller160.springarrowkt.container.service.JavaxTransactionPersonService
+import io.github.craigmiller160.springarrowkt.container.service.SpringTransactionPersonService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import org.assertj.core.api.Assertions.assertThat
