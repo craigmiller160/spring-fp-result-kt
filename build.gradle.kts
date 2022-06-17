@@ -13,7 +13,7 @@ plugins {
     `maven-publish`
 }
 
-group = "io.craigmiller160"
+group = "io.github.craigmiller160"
 version = "1.0.0-SNAPSHOT"
 java {
     sourceCompatibility = JavaVersion.VERSION_18
