@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConditionalOnClass(EntityManager::class)
-@ComponentScan(basePackages = ["io.github.craigmiller160.springarrowkt.controller"])
+@ComponentScan(basePackages = ["io.github.craigmiller160.springarrowkt.transaction"])
 class SpringArrowKtTransactionAutoConfiguration
