@@ -53,7 +53,7 @@ class EitherControllerResponseTest : BaseTest() {
 
   @Test
   fun `unwraps the Right ResponseEntity value with no content`() {
-    TODO()
+    mockMvc.get("/no-content").andExpect { status { isNoContent() } }
   }
 
   @Test
