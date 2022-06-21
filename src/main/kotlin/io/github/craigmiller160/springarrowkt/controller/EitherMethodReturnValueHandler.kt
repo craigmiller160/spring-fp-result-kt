@@ -70,6 +70,9 @@ class EitherMethodReturnValueHandler(
       val outputMessage = EitherHttpOutputMessage()
       converter.write(responseEntity.body!!, responseEntity.headers.contentType, outputMessage)
       response.outputStream.use { stream -> stream.write(outputMessage.bytes) }
+    } else {
+      // TODO figure out a better solution
+      response.outputStream.use { it.close() }
     }
   }
 
