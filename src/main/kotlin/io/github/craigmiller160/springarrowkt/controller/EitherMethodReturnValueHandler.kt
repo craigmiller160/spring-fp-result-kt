@@ -40,7 +40,10 @@ class EitherMethodReturnValueHandler(
       webRequest: NativeWebRequest
   ) =
       when (rightValue) {
-        is ResponseEntity<*> -> handleResponseEntity(rightValue, webRequest)
+        is ResponseEntity<*> -> {
+          mavContainer.isRequestHandled = true
+          handleResponseEntity(rightValue, webRequest)
+        }
         is Unit -> {} // Do nothing
         else -> delegate.handleReturnValue(rightValue, returnType, mavContainer, webRequest)
       }
