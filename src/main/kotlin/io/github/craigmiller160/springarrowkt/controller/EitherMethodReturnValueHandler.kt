@@ -17,7 +17,6 @@ class EitherMethodReturnValueHandler(
     private val delegate: HandlerMethodReturnValueHandler,
     private val messageConverters: List<HttpMessageConverter<*>>
 ) : HandlerMethodReturnValueHandler {
-  // TODO review and clean up all of this
   override fun supportsReturnType(returnType: MethodParameter): Boolean {
     return delegate.supportsReturnType(returnType)
   }
