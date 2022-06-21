@@ -56,7 +56,9 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude("org.junit.vintage", "junit-vintage-engine")
+    }
     testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:$kotestArrowVersion")
     testImplementation("org.postgresql:postgresql:$postgresVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
