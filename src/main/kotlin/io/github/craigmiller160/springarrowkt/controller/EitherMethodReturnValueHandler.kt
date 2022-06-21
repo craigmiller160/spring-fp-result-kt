@@ -41,7 +41,7 @@ class EitherMethodReturnValueHandler(
   ) =
       when (rightValue) {
         is ResponseEntity<*> -> {
-          mavContainer.isRequestHandled = true
+          //          mavContainer.isRequestHandled = true
           handleResponseEntity(rightValue, webRequest)
         }
         is Unit -> {} // Do nothing
