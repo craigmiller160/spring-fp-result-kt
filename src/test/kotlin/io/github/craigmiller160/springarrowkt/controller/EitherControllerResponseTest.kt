@@ -20,10 +20,11 @@ class EitherControllerResponseTest : BaseTest() {
 
   @Test
   fun `unwraps the Right value when there is no body and returns as 200 response`() {
+    // TODO clean this up
     mockMvc.get("/either/success/empty").andExpect {
       status { isOk() }
-      header { doesNotExist("content-type") }
-      content { string("") }
+      //      header { doesNotExist("content-type") }
+      content { string("{}") }
     }
   }
 
@@ -53,6 +54,11 @@ class EitherControllerResponseTest : BaseTest() {
 
   @Test
   fun `unwraps the Right ResponseEntity value with no content`() {
+    mockMvc.get("/either/response-entity/no-content").andExpect { status { isNoContent() } }
+  }
+
+  @Test
+  fun `unwraps the Right Unit value and returns response with Spring ResponseStatus annotation`() {
     mockMvc.get("/either/no-content").andExpect { status { isNoContent() } }
   }
 
