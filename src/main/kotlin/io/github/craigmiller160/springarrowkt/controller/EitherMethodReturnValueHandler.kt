@@ -44,7 +44,7 @@ class EitherMethodReturnValueHandler(
           mavContainer.isRequestHandled = true
           handleResponseEntity(rightValue, webRequest)
         }
-        is Unit -> {} // Do nothing
+        //        is Unit -> {} // Do nothing
         else -> delegate.handleReturnValue(rightValue, returnType, mavContainer, webRequest)
       }
 
