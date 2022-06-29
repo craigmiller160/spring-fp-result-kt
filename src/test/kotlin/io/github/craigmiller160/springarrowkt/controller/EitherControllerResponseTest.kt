@@ -53,6 +53,11 @@ class EitherControllerResponseTest : BaseTest() {
 
   @Test
   fun `unwraps the Right ResponseEntity value with no content`() {
+    mockMvc.get("/either/response-entity/no-content").andExpect { status { isNoContent() } }
+  }
+
+  @Test
+  fun `unwraps the Right Unit value and returns response with Spring ResponseStatus annotation`() {
     mockMvc.get("/either/no-content").andExpect { status { isNoContent() } }
   }
 

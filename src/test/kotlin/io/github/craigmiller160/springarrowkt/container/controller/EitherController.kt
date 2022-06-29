@@ -2,10 +2,12 @@ package io.github.craigmiller160.springarrowkt.container.controller
 
 import arrow.core.Either
 import io.github.craigmiller160.springarrowkt.container.dto.SuccessResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -15,9 +17,13 @@ class EitherController {
   @GetMapping("/success")
   fun success(): Either<Throwable, SuccessResponse> = Either.Right(SuccessResponse("Hello World"))
 
-  @GetMapping("/no-content")
-  fun noContent(): Either<Throwable, ResponseEntity<Unit>> =
+  @GetMapping("/response-entity/no-content")
+  fun responseEntityNoContent(): Either<Throwable, ResponseEntity<Unit>> =
       Either.Right(ResponseEntity.noContent().build())
+
+  @GetMapping("/no-content")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  fun noContent(): Either<Throwable, Unit> = Either.Right(Unit)
 
   @GetMapping("/success/empty") fun successEmptyBody(): Either<Throwable, Unit> = Either.Right(Unit)
 
