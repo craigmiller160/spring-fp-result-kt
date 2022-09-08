@@ -19,6 +19,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
 
+tasks.getByName<Jar>("jar") {
+    enabled = true
+    archiveClassifier.set("")
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
