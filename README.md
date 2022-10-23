@@ -55,7 +55,7 @@ This is still an early build of this library with a narrow feature set. More fea
 
 1. Either
    1. [Controller Responses](#either---controller-responses)
-   2. Transaction Rollbacks
+   2. [Transaction Rollbacks](#either---transaction-rollbacks)
 
 ### Either - Controller Responses
 
