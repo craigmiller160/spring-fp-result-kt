@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "io.github.craigmiller160"
-version = "1.0.2"
+version = "1.0.3"
 java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
@@ -97,6 +97,11 @@ tasks {
 
     bootJar {
         enabled = false
+    }
+
+    jar {
+        enabled = true
+        archiveClassifier.set("")
     }
 }
 
