@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "io.github.craigmiller160"
-version = "1.0.3"
+version = "1.1.0-SNAPSHOT"
 java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
