@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  io.github.craigmiller160.springarrowkt.SpringFpResultKtConverterAutoConfiguration,\
-  io.github.craigmiller160.springarrowkt.SpringFpResultKtControllerAutoConfiguration,\
-  io.github.craigmiller160.springarrowkt.SpringFpResultKtTransactionAutoConfiguration
+  io.github.craigmiller160.fpresultkt.SpringFpResultKtConverterAutoConfiguration,\
+  io.github.craigmiller160.fpresultkt.SpringFpResultKtControllerAutoConfiguration,\
+  io.github.craigmiller160.fpresultkt.SpringFpResultKtTransactionAutoConfiguration
