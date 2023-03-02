@@ -1,6 +1,8 @@
 package io.github.craigmiller160.fpresultkt.transaction
 
 import arrow.core.Either
+import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
+import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -10,8 +12,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
 
 @Aspect
 @Component
-class EitherTransactionAdvice {
-  // TODO add logging here
+class EitherTransactionAdvice(private val resultConverterHandler: ResultConverterHandler) {
   @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
 
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
@@ -28,7 +29,8 @@ class EitherTransactionAdvice {
         }
 
     val result = joinPoint.proceed()
-    if (result is Either.Left<*> && isTransactionActive()) {
+    val commonResult = resultConverterHandler.convert(result)
+    if (commonResult is CommonResultFailure && isTransactionActive()) {
       rollbackTransaction(savepoint)
     }
 
