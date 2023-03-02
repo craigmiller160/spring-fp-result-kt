@@ -1,5 +1,6 @@
 package io.github.craigmiller160.fpresultkt.converter
 
+// TODO what about the original result type?
 sealed interface CommonResult {
   val value: Any
 }
