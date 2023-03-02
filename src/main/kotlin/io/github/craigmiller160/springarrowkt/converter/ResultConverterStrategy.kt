@@ -1,4 +1,4 @@
-package io.github.craigmiller160.springarrowkt.wrapper.converter
+package io.github.craigmiller160.springarrowkt.converter
 
 enum class ResultConverterStrategy {
   EITHER,

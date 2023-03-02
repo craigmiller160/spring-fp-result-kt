@@ -1,4 +1,4 @@
-package io.github.craigmiller160.springarrowkt.wrapper
+package io.github.craigmiller160.springarrowkt.converter
 
 sealed interface CommonResult {
   val value: Any
