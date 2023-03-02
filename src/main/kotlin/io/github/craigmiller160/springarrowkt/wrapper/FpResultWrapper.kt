@@ -1,9 +1,11 @@
 package io.github.craigmiller160.springarrowkt.wrapper
 
-sealed interface FpResultWrapper
+sealed interface FpResultWrapper {
+  val value: Any
+}
 
-sealed class FpResultSuccess : FpResultWrapper
+data class FpResultSuccess(override val value: Any) : FpResultWrapper
 
-sealed class FpResultFailure : FpResultWrapper
+data class FpResultFailure(override val value: Any) : FpResultWrapper
 
-sealed class FpResultOther : FpResultWrapper
+data class FpResultOther(override val value: Any) : FpResultWrapper
