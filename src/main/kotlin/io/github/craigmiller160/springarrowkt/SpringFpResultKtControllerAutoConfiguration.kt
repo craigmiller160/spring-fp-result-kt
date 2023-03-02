@@ -8,4 +8,4 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 @ConditionalOnClass(RequestMappingHandlerAdapter::class)
 @ComponentScan(basePackages = ["io.github.craigmiller160.springarrowkt.controller"])
-class SpringArrowKtControllerAutoConfiguration
+class SpringFpResultKtControllerAutoConfiguration
