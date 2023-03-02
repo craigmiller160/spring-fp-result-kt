@@ -58,6 +58,7 @@ dependencies {
     val kotestArrowVersion = "1.2.5"
     val postgresVersion = "42.4.0"
     val testcontainersVersion = "1.17.2"
+    val kotlinResultVersion = "1.1.6"
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -86,6 +87,10 @@ dependencies {
     val jacksonModuleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
     compileOnly(jacksonModuleKotlin)
     testImplementation(jacksonModuleKotlin)
+
+    val kotlinResult = "com.michael-bull.kotlin-result:kotlin-result-jvm:$kotlinResultVersion"
+    compileOnly(kotlinResult)
+    testImplementation(kotlinResult)
 }
 
 tasks {
