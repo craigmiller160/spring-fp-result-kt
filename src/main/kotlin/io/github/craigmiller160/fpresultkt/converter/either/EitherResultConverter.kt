@@ -8,10 +8,10 @@ import io.github.craigmiller160.fpresultkt.converter.ResultConverter
 import org.springframework.stereotype.Component
 
 @Component
-class EitherResultConverter : ResultConverter<Either<*, *>> {
-  override fun convert(value: Either<*, *>): CommonResult =
-      when (value) {
-        is Either.Right -> CommonResultSuccess(value.value)
-        is Either.Left -> CommonResultFailure(value.value)
+class EitherResultConverter : ResultConverter {
+  override fun convert(value: Any): CommonResult =
+      when (val either = value as Either<*, *>) {
+        is Either.Right -> CommonResultSuccess(either.value)
+        is Either.Left -> CommonResultFailure(either.value)
       }
 }
