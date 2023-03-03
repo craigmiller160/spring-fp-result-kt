@@ -13,6 +13,8 @@ class ResultConverterHandler(
   fun convert(value: Any?): CommonResult =
       when (ResultConverterStrategyFinder.find(value)) {
         ResultConverterStrategy.EITHER -> eitherResultConverter!!.convert(value!!)
-        else -> CommonResultOther(value)
+        ResultConverterStrategy.KOTLIN_RESULT -> kotlinResultResultConverter!!.convert(value!!)
+        ResultConverterStrategy.STDLIB_RESULT -> stdlibResultConverter!!.convert(value!!)
+        ResultConverterStrategy.OTHER -> CommonResultOther(value)
       }
 }
