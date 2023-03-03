@@ -12,7 +12,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
 
 @Aspect
 @Component
-class EitherTransactionAdvice(private val resultConverterHandler: ResultConverterHandler) {
+class ResultTransactionAdvice(private val resultConverterHandler: ResultConverterHandler) {
   @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
 
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
