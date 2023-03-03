@@ -1,1 +1,1 @@
-rootProject.name = "spring-arrow-kt"
+rootProject.name = "spring-fp-result-kt"
