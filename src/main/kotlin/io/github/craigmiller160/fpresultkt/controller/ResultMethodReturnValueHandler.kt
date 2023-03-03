@@ -13,7 +13,7 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler
 import org.springframework.web.method.support.ModelAndViewContainer
 
-class EitherMethodReturnValueHandler(
+class ResultMethodReturnValueHandler(
     private val delegate: HandlerMethodReturnValueHandler,
     private val messageConverters: List<HttpMessageConverter<*>>
 ) : HandlerMethodReturnValueHandler {

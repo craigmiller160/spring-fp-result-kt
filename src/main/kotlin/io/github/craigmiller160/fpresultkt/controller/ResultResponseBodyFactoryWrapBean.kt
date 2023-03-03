@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor
 
 @Component
-class EitherResponseBodyFactoryWrapBean(private val adapter: RequestMappingHandlerAdapter) :
+class ResultResponseBodyFactoryWrapBean(private val adapter: RequestMappingHandlerAdapter) :
     InitializingBean {
 
   override fun afterPropertiesSet() {
@@ -22,7 +22,7 @@ class EitherResponseBodyFactoryWrapBean(private val adapter: RequestMappingHandl
       handlers.map { handler ->
         when (handler) {
           is RequestResponseBodyMethodProcessor ->
-              EitherMethodReturnValueHandler(handler, adapter.messageConverters)
+              ResultMethodReturnValueHandler(handler, adapter.messageConverters)
           else -> handler
         }
       }
