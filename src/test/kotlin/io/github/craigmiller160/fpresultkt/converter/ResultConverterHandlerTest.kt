@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import io.github.craigmiller160.fpresultkt.converter.either.EitherResultConverter
+import io.github.craigmiller160.fpresultkt.converter.kotlinresult.KotlinResultResultConverter
 import io.github.craigmiller160.fpresultkt.converter.stdlibresult.StdlibResultConverter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -12,7 +13,8 @@ import org.junit.jupiter.api.Test
 
 class ResultConverterHandlerTest {
   private val resultConverterHandler =
-      ResultConverterHandler(StdlibResultConverter(), EitherResultConverter())
+      ResultConverterHandler(
+          StdlibResultConverter(), EitherResultConverter(), KotlinResultResultConverter())
   @Test
   fun `converts Either Right`() {
     val value = "Hello"
