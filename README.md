@@ -1,14 +1,14 @@
-# spring-arrow-kt
+# spring-fp-result-kt
 
-The bridge between the Spring Framework and Arrow-KT.
+A simple utility library to support functional programming with "Result" data types in Spring with Kotlin.
 
 ## Introduction
 
-For fans of functional programming in Kotlin, `arrow-kt` is one of the best options for adding functional constructs. However, the Spring Framework's OOP design structure introduces friction when trying to leverage its robust feature set while writing functional code. In particular, the advanced "magic" Spring can do was designed with OOP-style code in mind, and with very few exceptions (`vavr`) breaks when used in an FP-style way.
+A common part of functional programming is working with "Result" data types. These are monads that represent the result of a function that either succeeded or failed. They are an alternative to throwing exceptions and ensure that functions that can fail still have referential transparency.
 
-In general, the recommended solution to this ends up being either write OOP-style code for Spring, or use another framework. But what if we could have our cake and eat it too? What if we could leverage the capabilities of the largest and most feature-rich framework in the JVM ecosystem and use FP-style programming patterns? What if we could produce a truly robust hybrid OOP-FP project, leveraging the best pieces of all of it?
+While Spring supports a variety of programming paradigms, it is still an OOP-first solution. There are certain Spring features that expect an exception to be thrown in order for their behavior to work correctly. While Spring has added support for certain Result types like `io.vavr.control.Try`, there are a variety of additional Result types that are not supported.
 
-That is what this library strives to accomplish. Its goal is to streamline the rough edges and allow developers to use the FP constructs in `arrow-kt` with Spring and everything will just work.
+This library will configure the consuming Spring project to gracefully handle additional Result types for certain behaviors that normally are only triggered by exception throwing.
 
 ## Installing
 
@@ -20,8 +20,8 @@ This library can be found on Maven Central.
 ```xml
 <dependency>
     <groupId>io.github.craigmiller160</groupId>
-    <artifactId>spring-arrow-kt</artifactId>
-    <version>1.0.0</version>
+    <artifactId>spring-fp-result-kt</artifactId>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ This library can be found on Maven Central.
 <summary>Gradle (Groovy)</summary>
 
 ```groovy
-implementation 'io.github.craigmiller160:spring-arrow-kt:1.0.0'
+implementation 'io.github.craigmiller160:spring-fp-result-kt:2.0.0'
 ```
 
 </details>
@@ -38,12 +38,31 @@ implementation 'io.github.craigmiller160:spring-arrow-kt:1.0.0'
 <summary>Gradle (Kotlin)</summary>
 
 ```kotlin
-implementation("io.github.craigmiller160:spring-arrow-kt:1.0.0")
+implementation("io.github.craigmiller160:spring-fp-result-kt:2.0.0")
 ```
 
 </details>
 
 Once it is on the classpath, Spring AutoConfiguration will do the rest.
+
+## Supported Result Datatypes
+
+1. Standard Lib Result (`kotlin.Result`)
+2. [Michael Bull's Kotlin-Result](https://github.com/michaelbull/kotlin-result) (`com.github.michaelbull.result.Result`)
+3. [Arrow-KT's Either](https://arrow-kt.io) (`arrow.core.Either`)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## A Note On Eithers
 
