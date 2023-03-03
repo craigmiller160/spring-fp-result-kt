@@ -9,7 +9,7 @@ object ResultConverterStrategyFinder {
     val valueClassName = value.javaClass.name
     return if (EITHER_CLASSES.contains(valueClassName)) {
       ResultConverterStrategy.EITHER
-    } else if (KOTLIN_RESULT_CLASS.contains(valueClassName)) {
+    } else if (KOTLIN_RESULT_CLASSES.contains(valueClassName)) {
       ResultConverterStrategy.KOTLIN_RESULT
     } else if (STDLIB_RESULT_CLASS == valueClassName) {
       ResultConverterStrategy.STDLIB_RESULT
