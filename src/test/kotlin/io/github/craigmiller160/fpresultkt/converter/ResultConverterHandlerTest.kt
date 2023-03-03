@@ -1,14 +1,18 @@
 package io.github.craigmiller160.fpresultkt.converter
 
 import arrow.core.Either
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import io.github.craigmiller160.fpresultkt.converter.either.EitherResultConverter
+import io.github.craigmiller160.fpresultkt.converter.stdlibresult.StdlibResultConverter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class ResultConverterHandlerTest {
-  private val resultConverterHandler = ResultConverterHandler(EitherResultConverter())
+  private val resultConverterHandler =
+      ResultConverterHandler(StdlibResultConverter(), EitherResultConverter())
   @Test
   fun `converts Either Right`() {
     val value = "Hello"
@@ -46,21 +50,37 @@ class ResultConverterHandlerTest {
 
   @Test
   fun `converts Kotlin Result Ok`() {
-    TODO()
+    val value = "Hello"
+    val result = resultConverterHandler.convert(Ok(value))
+    assertTrue { result is CommonResultSuccess }
+    assertEquals(ResultConverterStrategy.KOTLIN_RESULT, result.strategy)
+    assertEquals(value, result.value)
   }
 
   @Test
   fun `converts Kotlin Result Err`() {
-    TODO()
+    val value = Exception("Dying")
+    val result = resultConverterHandler.convert(Err(value))
+    assertTrue { result is CommonResultFailure }
+    assertEquals(ResultConverterStrategy.KOTLIN_RESULT, result.strategy)
+    assertEquals(value, result.value)
   }
 
   @Test
   fun `converts stdlib Result success`() {
-    TODO()
+    val value = "Hello"
+    val result = resultConverterHandler.convert(Result.success(value))
+    assertTrue { result is CommonResultSuccess }
+    assertEquals(ResultConverterStrategy.STDLIB_RESULT, result.strategy)
+    assertEquals(value, result.value)
   }
 
   @Test
   fun `converts stdlib Result failure`() {
-    TODO()
+    val value = Exception("Dying")
+    val result = resultConverterHandler.convert(Result.failure<String>(value))
+    assertTrue { result is CommonResultFailure }
+    assertEquals(ResultConverterStrategy.STDLIB_RESULT, result.strategy)
+    assertEquals(value, result.value)
   }
 }

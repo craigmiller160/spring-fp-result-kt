@@ -4,7 +4,7 @@ enum class ResultConverterStrategy {
   EITHER,
   KOTLIN_RESULT,
   OTHER,
-  RESULT;
+  STDLIB_RESULT;
 
   companion object
 }
