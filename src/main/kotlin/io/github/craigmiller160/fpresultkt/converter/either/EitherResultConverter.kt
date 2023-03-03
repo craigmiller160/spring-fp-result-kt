@@ -10,7 +10,7 @@ import io.github.craigmiller160.fpresultkt.converter.ResultConverterStrategy
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.stereotype.Component
 
-@Component
+@Component("eitherResultConverter")
 @ConditionalOnClass(name = [EITHER_CLASS])
 class EitherResultConverter : ResultConverter {
   override fun convert(value: Any): CommonResult =
