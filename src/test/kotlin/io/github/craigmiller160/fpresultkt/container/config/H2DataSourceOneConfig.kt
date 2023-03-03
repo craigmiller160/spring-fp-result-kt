@@ -42,7 +42,7 @@ class H2DataSourceOneConfig {
   ) =
       LocalContainerEntityManagerFactoryBean().apply {
         dataSource = dataSourceOne
-        setPackagesToScan("io.github.craigmiller160.springarrowkt.container.domain.ds1.entities")
+        setPackagesToScan("io.github.craigmiller160.fpresultkt.container.domain.ds1.entities")
         val adapter = HibernateJpaVendorAdapter()
         jpaVendorAdapter = adapter
         setJpaPropertyMap(
