@@ -1,6 +1,8 @@
 package io.github.craigmiller160.fpresultkt.controller
 
-import arrow.core.Either
+import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
+import io.github.craigmiller160.fpresultkt.converter.CommonResultSuccess
+import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import javax.servlet.http.HttpServletResponse
@@ -15,7 +17,8 @@ import org.springframework.web.method.support.ModelAndViewContainer
 
 class ResultMethodReturnValueHandler(
     private val delegate: HandlerMethodReturnValueHandler,
-    private val messageConverters: List<HttpMessageConverter<*>>
+    private val messageConverters: List<HttpMessageConverter<*>>,
+    private val resultConverterHandler: ResultConverterHandler
 ) : HandlerMethodReturnValueHandler {
   override fun supportsReturnType(returnType: MethodParameter): Boolean {
     return delegate.supportsReturnType(returnType)
@@ -27,25 +30,26 @@ class ResultMethodReturnValueHandler(
       mavContainer: ModelAndViewContainer,
       webRequest: NativeWebRequest
   ) =
-      when (returnValue) {
-        is Either.Left<*> -> handleLeft(returnValue.value)
-        is Either.Right<*> -> handleRight(returnValue.value, returnType, mavContainer, webRequest)
+      when (val commonResult = resultConverterHandler.convert(returnValue)) {
+        is CommonResultFailure -> handleFailure(commonResult.value)
+        is CommonResultSuccess ->
+            handleRight(commonResult.value, returnType, mavContainer, webRequest)
         else -> delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest)
       }
 
   private fun handleRight(
-      rightValue: Any?,
+      successValue: Any?,
       returnType: MethodParameter,
       mavContainer: ModelAndViewContainer,
       webRequest: NativeWebRequest
   ) =
-      when (rightValue) {
+      when (successValue) {
         is ResponseEntity<*> -> {
           mavContainer.isRequestHandled = true
-          handleResponseEntity(rightValue, webRequest)
+          handleResponseEntity(successValue, webRequest)
         }
         //        is Unit -> {} // Do nothing
-        else -> delegate.handleReturnValue(rightValue, returnType, mavContainer, webRequest)
+        else -> delegate.handleReturnValue(successValue, returnType, mavContainer, webRequest)
       }
 
   private fun handleResponseEntity(
@@ -78,11 +82,10 @@ class ResultMethodReturnValueHandler(
     }
   }
 
-  // TODO what if left value is not error?
-  private fun handleLeft(leftValue: Any?): Nothing =
-      when (leftValue) {
-        is Throwable -> throw leftValue
-        else -> throw NonThrowableEitherLeftException(leftValue.toString())
+  private fun handleFailure(errorValue: Any?): Nothing =
+      when (errorValue) {
+        is Throwable -> throw errorValue
+        else -> throw NonThrowableResultFailureException(errorValue.toString())
       }
 
   private class EitherHttpOutputMessage : HttpOutputMessage {
