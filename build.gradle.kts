@@ -58,7 +58,7 @@ dependencies {
     val kotestArrowVersion = "1.2.5"
     val postgresVersion = "42.4.0"
     val testcontainersVersion = "1.17.2"
-    val kotlinResultVersion = "1.1.6"
+    val kotlinResultVersion = "1.1.16"
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
