@@ -51,36 +51,19 @@ Once it is on the classpath, Spring AutoConfiguration will do the rest.
 2. [Michael Bull's Kotlin-Result](https://github.com/michaelbull/kotlin-result) (`com.github.michaelbull.result.Result`)
 3. [Arrow-KT's Either](https://arrow-kt.io) (`arrow.core.Either`)
 
+### A Note oN Eithers
 
-
-
-
-
-
-
-
-
-
-
-
-
-## A Note On Eithers
-
-This library treats the `Either` type exclusively as an error-handling container. It assumes that any `Left` value is an error, even if it is not of type `Throwable`. In the future this may be made configurable to support certain non-error scenarios.
+This library treats the Arrow-KT `Either` type exclusively as an error-handling container. It assumes that any `Left` value is an error, even if it is not of type `Throwable`.
 
 ## Features
 
-This is still an early build of this library with a narrow feature set. More features can be added in the future.
+This library ensures that the use of Result datatypes will integrate smoothly with the following Spring features. Please note that although the code examples all use `arrow.core.Either`, all supported datatypes applyy.
 
-1. Either
-   1. [Controller Responses](#either---controller-responses)
-   2. [Transaction Rollbacks](#either---transaction-rollbacks)
+### Controller Responses
 
-### Either - Controller Responses
+When a Spring `RestController` returns a response object, that object is serialized to JSON. Spring only recognizes failures that are thrown exceptions, so a Result type returned from a controller will simply be serialized and returned as a 200 response.
 
-When a Spring `RestController` returns a response object, that object is serialized to JSON. Spring only recognizes failures that are thrown exceptions, so an `Either` returned from a controller will simply be serialized and returned as a 200 response.
-
-With this library, an `Either` returned from a controller is automatically unwrapped and handled behind the scenes.
+With this library, any supported Result type returned from a controller is automatically unwrapped and handled behind the scenes.
 
 ```kotlin
 /**
@@ -91,7 +74,7 @@ With this library, an `Either` returned from a controller is automatically unwra
 fun request(): Either<Throwable, Body> = /* ... */
 ```
 
-For customized responses, an `Either` wrapping around a `ResponseEntity` will also be gracefully handled.
+For customized responses, a Result type wrapping around a `ResponseEntity` will also be gracefully handled.
 
 ```kotlin
 /**
@@ -102,11 +85,9 @@ For customized responses, an `Either` wrapping around a `ResponseEntity` will al
 fun request(): Either<Throwable,ResposneEntity<Body>> = /* ... */
 ```
 
-### Either - Transaction Rollbacks
+### Transaction Rollbacks
 
-The default behavior of Spring is to only rollback an `@Transactional` transaction on an exception. However, an `Either` represents a potential fail condition that doesn't involve throwing an exception.
-
-With this library, Spring will recognize `Either`-wrapped failures and perform a rollback.
+The default behavior of Spring is to only rollback an `@Transactional` transaction on an exception. This library adds support for triggering a rollback when returning a failed Result type without needing to unwrap and throw the exception.
 
 ```kotlin
 /**
@@ -117,7 +98,7 @@ With this library, Spring will recognize `Either`-wrapped failures and perform a
 fun operation(): Either<Throwable, Value> = /* ... */
 ```
 
-**NOTE:** When working with `Either`s as opposed to exceptions, it may seem nature to expect a partial transaction to work. For example:
+**NOTE:** When working with Result types as opposed to exceptions, it may seem nature to expect a partial transaction to work. For example:
 
 ```kotlin
 @Transactional()
@@ -132,4 +113,6 @@ fun doSomethingInTransaction(
 }
 ```
 
-In this scenario, it may look that the `nestedService.doSomethingElseInTransaction` would rollback if returning a `Left`, whereas `doSomethingInTransaction` would commit since it returns a `Right`. The catch is that Spring's transaction rules apply here. Spring has limited support for nested transactions and partial rollbacks. The point is simple: if your app is configured so a nested transaction would work with exceptions & try/catch, it'll work with `Either`s via this library. If a nested transaction would not work with exceptions & try/catch, then it still will not work with this library.
+In this scenario, it may look that the `nestedService.doSomethingElseInTransaction` would rollback if returning a `Left`, whereas `doSomethingInTransaction` would commit since it returns a `Right`. The catch is that Spring's transaction rules apply here. Spring has limited support for nested transactions and partial rollbacks. 
+
+The point is simple: if your app is configured so a nested transaction would work with exceptions & try/catch, it'll work with Result types via this library. If a nested transaction would not work with exceptions & try/catch, then it still will not work with this library.
