@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.diffplug.gradle.spotless.SpotlessExtension
 
+val projectVersion: String by project
+
 plugins {
     val kotlinVersion = "1.6.21"
 
@@ -14,7 +16,7 @@ plugins {
 }
 
 group = "io.github.craigmiller160"
-version = "2.0.0-SNAPSHOT"
+version = projectVersion
 java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
