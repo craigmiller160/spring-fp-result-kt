@@ -57,19 +57,15 @@ repositories {
 }
 
 dependencies {
-    val arrowVersion = "1.0.1"
-    val kotestArrowVersion = "1.2.5"
-    val postgresVersion = "42.4.0"
-    val testcontainersVersion = "1.17.2"
-    val kotlinResultVersion = "1.1.16"
+    val testcontainersVersion: String by project
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude("org.junit.vintage", "junit-vintage-engine")
     }
-    testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:$kotestArrowVersion")
-    testImplementation("org.postgresql:postgresql:$postgresVersion")
+    testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:1.2.5")
+    testImplementation("org.postgresql:postgresql:42.4.0")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("com.h2database:h2")
@@ -83,7 +79,7 @@ dependencies {
     compileOnly(springWeb)
     testImplementation(springWeb)
 
-    val arrowKt = "io.arrow-kt:arrow-core-jvm:$arrowVersion"
+    val arrowKt = "io.arrow-kt:arrow-core-jvm:1.0.1"
     compileOnly(arrowKt)
     testImplementation(arrowKt)
 
@@ -91,7 +87,7 @@ dependencies {
     compileOnly(jacksonModuleKotlin)
     testImplementation(jacksonModuleKotlin)
 
-    val kotlinResult = "com.michael-bull.kotlin-result:kotlin-result-jvm:$kotlinResultVersion"
+    val kotlinResult = "com.michael-bull.kotlin-result:kotlin-result-jvm:1.1.16"
     compileOnly(kotlinResult)
     testImplementation(kotlinResult)
 }
