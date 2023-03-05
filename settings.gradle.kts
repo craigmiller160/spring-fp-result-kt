@@ -1,4 +1,6 @@
-rootProject.name = "spring-fp-result-kt"
+val projectName: String by settings
+
+rootProject.name = projectName
 
 pluginManagement {
     val kotlinVersion: String by settings
