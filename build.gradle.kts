@@ -4,14 +4,15 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 val projectVersion: String by project
 val projectGroup: String by project
 
+val kotlinVersion: String by project
+
 plugins {
-    val kotlinVersion = "1.6.21"
 
     id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    kotlin("plugin.jpa")
     id("com.diffplug.spotless") version "6.6.1"
     `maven-publish`
 }
