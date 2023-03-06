@@ -14,6 +14,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         mavenCentral()
+        gradlePluginPortal()
         maven {
             url = uri("https://nexus-craigmiller160.ddns.net/repository/maven-public")
         }
