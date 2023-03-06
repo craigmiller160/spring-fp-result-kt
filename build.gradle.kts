@@ -7,7 +7,7 @@ val projectGroup: String by project
 plugins {
     id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("io.craigmiller160.defaults") version "1.0.0-SNAPSHOT"
+    id("io.craigmiller160.gradle.defaults") version "1.0.0-SNAPSHOT"
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
