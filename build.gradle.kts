@@ -21,11 +21,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_18
 }
 
-tasks.getByName<Jar>("jar") {
-    enabled = true
-    archiveClassifier.set("")
-}
-
 dependencies {
     val testcontainersVersion: String by project
 
@@ -79,7 +74,6 @@ tasks {
     }
 
     jar {
-        enabled = true
         archiveClassifier.set("")
     }
 }
