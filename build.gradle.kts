@@ -26,13 +26,6 @@ tasks.getByName<Jar>("jar") {
     archiveClassifier.set("")
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://nexus-craigmiller160.ddns.net/repository/maven-public")
-    }
-}
-
 dependencies {
     val testcontainersVersion: String by project
 
