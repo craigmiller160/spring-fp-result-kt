@@ -7,6 +7,7 @@ val projectGroup: String by project
 plugins {
     id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.craigmiller160.gradle.defaults") version "1.0.0-SNAPSHOT"
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
@@ -18,40 +19,6 @@ group = projectGroup
 version = projectVersion
 java {
     sourceCompatibility = JavaVersion.VERSION_18
-}
-
-tasks.getByName<Jar>("jar") {
-    enabled = true
-    archiveClassifier.set("")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = rootProject.name
-            version = project.version.toString()
-
-            from(components["kotlin"])
-        }
-    }
-    repositories {
-        maven {
-            val repo = if (project.version.toString().endsWith("-SNAPSHOT")) "maven-snapshots" else "maven-releases"
-            url = uri("https://nexus-craigmiller160.ddns.net/repository/$repo")
-            credentials {
-                username = System.getenv("NEXUS_USER")
-                password = System.getenv("NEXUS_PASSWORD")
-            }
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://nexus-craigmiller160.ddns.net/repository/maven-public")
-    }
 }
 
 dependencies {
@@ -107,7 +74,6 @@ tasks {
     }
 
     jar {
-        enabled = true
         archiveClassifier.set("")
     }
 }
