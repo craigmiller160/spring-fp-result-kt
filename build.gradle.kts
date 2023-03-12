@@ -18,7 +18,7 @@ plugins {
 group = projectGroup
 version = projectVersion
 java {
-    sourceCompatibility = JavaVersion.VERSION_18
+    sourceCompatibility = JavaVersion.VERSION_19
 }
 
 dependencies {
@@ -61,7 +61,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "18"
+            jvmTarget = "19"
         }
     }
 
