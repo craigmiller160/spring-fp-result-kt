@@ -5,8 +5,8 @@ val projectVersion: String by project
 val projectGroup: String by project
 
 plugins {
-    id("org.springframework.boot") version "2.7.0"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot") version "3.0.4"
+    id("io.spring.dependency-management") version "1.1.0"
     id("io.craigmiller160.gradle.defaults") version "1.0.0-SNAPSHOT"
     kotlin("jvm")
     kotlin("plugin.spring")
@@ -18,11 +18,12 @@ plugins {
 group = projectGroup
 version = projectVersion
 java {
-    sourceCompatibility = JavaVersion.VERSION_18
+    sourceCompatibility = JavaVersion.VERSION_19
 }
 
 dependencies {
     val testcontainersVersion: String by project
+//    testImplementation("org.jetbrains.kotlin:kotlin-noarg")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -61,7 +62,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "18"
+            jvmTarget = "19"
         }
     }
 

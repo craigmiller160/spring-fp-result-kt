@@ -4,59 +4,59 @@ import arrow.core.Either
 import arrow.core.redeem
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.entities.Person
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.repositories.PersonRepository
+import jakarta.transaction.Transactional
 import java.util.UUID
-import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
-class JavaxTransactionPersonService(
+class JakartaTransactionPersonService(
     private val personRepository: PersonRepository,
-    private val nestedService: JavaxNestedTransactionPersonService
+    private val nestedService: JakartaNestedTransactionPersonService
 ) {
   @Transactional
-  fun javaxSaveAndCommit(person: Person): Either<Throwable, Person> =
+  fun jakartaSaveAndCommit(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.saveAndFlush(person))
 
   @Transactional
-  fun javaxSaveAndRollback(person: Person): Either<Throwable, Person> {
+  fun jakartaSaveAndRollback(person: Person): Either<Throwable, Person> {
     personRepository.saveAndFlush(person)
     return Either.Left(RuntimeException("Dying"))
   }
 
   @Transactional
-  fun javaxNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
+  fun jakartaNoEitherSaveAndCommit(person: Person): Person = personRepository.save(person)
 
   @Transactional
-  fun javaxNoEitherSaveAndRollback(person: Person): Person {
+  fun jakartaNoEitherSaveAndRollback(person: Person): Person {
     personRepository.save(person)
     throw RuntimeException("Dying")
   }
 
   @Transactional
-  fun javaxNestedSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+  fun jakartaNestedSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.javaxNestedSaveFailure(newPerson).redeem({ person }, { it })
+    return nestedService.jakartaNestedSaveFailure(newPerson).redeem({ person }, { it })
   }
 
   @Transactional(Transactional.TxType.REQUIRES_NEW)
-  fun javaxNestedRequireNewSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
+  fun jakartaNestedRequireNewSaveAndPartialRollback(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.javaxNestedRequireNewSaveFailure(newPerson).redeem({ person }, { it })
+    return nestedService.jakartaNestedRequireNewSaveFailure(newPerson).redeem({ person }, { it })
   }
 
   @Transactional
-  fun javaxNestedSaveAndRollbackAll(person: Person): Either<Throwable, Person> {
+  fun jakartaNestedSaveAndRollbackAll(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.javaxNestedSaveFailure(newPerson)
+    return nestedService.jakartaNestedSaveFailure(newPerson)
   }
 
   @Transactional
-  fun javaxNestedSaveAndCommitAll(person: Person): Either<Throwable, Person> {
+  fun jakartaNestedSaveAndCommitAll(person: Person): Either<Throwable, Person> {
     personRepository.save(person)
     val newPerson = person.copy(id = UUID.randomUUID(), name = "${person.name}-2")
-    return nestedService.javaxNestedSaveSuccess(newPerson)
+    return nestedService.jakartaNestedSaveSuccess(newPerson)
   }
 }
