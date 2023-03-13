@@ -3,9 +3,9 @@ package io.github.craigmiller160.fpresultkt.controller
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.CommonResultSuccess
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
+import jakarta.servlet.http.HttpServletResponse
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import javax.servlet.http.HttpServletResponse
 import org.springframework.core.MethodParameter
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpOutputMessage

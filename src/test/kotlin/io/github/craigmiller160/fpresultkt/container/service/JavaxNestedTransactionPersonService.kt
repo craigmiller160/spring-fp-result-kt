@@ -3,7 +3,7 @@ package io.github.craigmiller160.fpresultkt.container.service
 import arrow.core.Either
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.entities.Person
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.repositories.PersonRepository
-import javax.transaction.Transactional
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
