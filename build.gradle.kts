@@ -11,6 +11,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    // TODO make version re-usable
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.8.10"
     id("com.diffplug.spotless") version "6.6.1"
     `maven-publish`
 }
@@ -23,6 +25,7 @@ java {
 
 dependencies {
     val testcontainersVersion: String by project
+//    testImplementation("org.jetbrains.kotlin:kotlin-noarg")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
