@@ -1,0 +1,3 @@
+io.github.craigmiller160.fpresultkt.SpringFpResultKtConverterAutoConfiguration
+io.github.craigmiller160.fpresultkt.SpringFpResultKtControllerAutoConfiguration
+io.github.craigmiller160.fpresultkt.SpringFpResultKtTransactionAutoConfiguration
