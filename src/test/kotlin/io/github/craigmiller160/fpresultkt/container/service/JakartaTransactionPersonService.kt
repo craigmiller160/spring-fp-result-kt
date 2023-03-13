@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.redeem
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.entities.Person
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.repositories.PersonRepository
+import jakarta.transaction.Transactional
 import java.util.UUID
-import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
