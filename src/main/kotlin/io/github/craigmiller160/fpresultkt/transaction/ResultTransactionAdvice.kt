@@ -13,12 +13,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
 @Aspect
 @Component
 class ResultTransactionAdvice(private val resultConverterHandler: ResultConverterHandler) {
-  @Pointcut("@annotation(javax.transaction.Transactional)") fun javaxTransactional() {}
+  @Pointcut("@annotation(jakarta.transaction.Transactional)") fun jakartaTransactional() {}
 
   @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
   fun springTransactional() {}
 
-  @Around("javaxTransactional() || springTransactional()")
+  @Around("jakartaTransactional() || springTransactional()")
   fun handleEitherReturnValue(joinPoint: ProceedingJoinPoint): Any? {
     val savepoint =
         if (isTransactionActive() &&
