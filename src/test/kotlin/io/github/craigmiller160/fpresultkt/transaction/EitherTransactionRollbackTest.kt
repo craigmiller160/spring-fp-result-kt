@@ -3,7 +3,7 @@ package io.github.craigmiller160.fpresultkt.transaction
 import io.github.craigmiller160.fpresultkt.BaseTest
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.entities.Person
 import io.github.craigmiller160.fpresultkt.container.domain.ds1.repositories.PersonRepository
-import io.github.craigmiller160.fpresultkt.container.service.JavaxTransactionPersonService
+import io.github.craigmiller160.fpresultkt.container.service.JakartaTransactionPersonService
 import io.github.craigmiller160.fpresultkt.container.service.SpringTransactionPersonService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.UnexpectedRollbackException
 
 class EitherTransactionRollbackTest : BaseTest() {
-  @Autowired private lateinit var javaxService: JavaxTransactionPersonService
+  @Autowired private lateinit var jakartaService: JakartaTransactionPersonService
   @Autowired private lateinit var springService: SpringTransactionPersonService
   @Autowired private lateinit var personRepository: PersonRepository
 
@@ -31,17 +31,17 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - commit if Right returned`() {
+  fun `jakarta - commit if Right returned`() {
     val person = Person(name = "Bob", age = 20)
-    val result = javaxService.javaxSaveAndCommit(person)
+    val result = jakartaService.jakartaSaveAndCommit(person)
     result.shouldBeRight(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
 
   @Test
-  fun `javax - rollback if Left returned`() {
+  fun `jakarta - rollback if Left returned`() {
     val person = Person(name = "John", age = 30)
-    val result = javaxService.javaxSaveAndRollback(person)
+    val result = jakartaService.javaxSaveAndRollback(person)
     result.shouldBeLeft(RuntimeException("Dying"))
     assertThat(personRepository.findById(person.id)).isEmpty
   }
@@ -63,9 +63,9 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - no either, commit if no exception`() {
+  fun `jakarta - no either, commit if no exception`() {
     val person = Person(name = "Jimmy", age = 50)
-    val result = javaxService.javaxNoEitherSaveAndCommit(person)
+    val result = jakartaService.javaxNoEitherSaveAndCommit(person)
     assertThat(result).isEqualTo(person)
     assertThat(personRepository.findById(person.id)).isPresent.get().isEqualTo(person)
   }
@@ -79,9 +79,9 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - no either, rollback if exception`() {
+  fun `jakarta - no either, rollback if exception`() {
     val person = Person(name = "Jimmy", age = 70)
-    assertThrows<RuntimeException> { javaxService.javaxNoEitherSaveAndRollback(person) }
+    assertThrows<RuntimeException> { jakartaService.javaxNoEitherSaveAndRollback(person) }
     assertThat(personRepository.findById(person.id)).isEmpty
   }
 
@@ -93,34 +93,34 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
-  fun `javax - nested transactional methods, rollback all`() {
+  fun `jakarta - nested transactional methods, rollback all`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = javaxService.javaxNestedSaveAndRollbackAll(person)
+    val result = jakartaService.javaxNestedSaveAndRollbackAll(person)
     result.shouldBeLeft(RuntimeException("Nested Dying"))
     assertThat(personRepository.count()).isEqualTo(0)
   }
 
   @Test
-  fun `javax - nested transactional methods, partial rollback, tx type REQUIRED does not support it`() {
+  fun `jakarta - nested transactional methods, partial rollback, tx type REQUIRED does not support it`() {
     val person = Person(name = "Jimmy", age = 90)
     assertThrows<UnexpectedRollbackException> {
-      javaxService.javaxNestedSaveAndPartialRollback(person)
+      jakartaService.javaxNestedSaveAndPartialRollback(person)
     }
     assertThat(personRepository.count()).isEqualTo(0)
   }
 
   @Test
-  fun `javax - nested transactional methods, partial rollback, tx type REQUIRE_NEW does support it`() {
+  fun `jakarta - nested transactional methods, partial rollback, tx type REQUIRE_NEW does support it`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = javaxService.javaxNestedRequireNewSaveAndPartialRollback(person)
+    val result = jakartaService.javaxNestedRequireNewSaveAndPartialRollback(person)
     result.shouldBeRight(person)
     assertThat(personRepository.findAll()).hasSize(1).contains(person)
   }
 
   @Test
-  fun `javax - nested transactional methods, all commit`() {
+  fun `jakarta - nested transactional methods, all commit`() {
     val person = Person(name = "Jimmy", age = 90)
-    val result = javaxService.javaxNestedSaveAndCommitAll(person)
+    val result = jakartaService.javaxNestedSaveAndCommitAll(person)
     result.isRight()
     assertThat(personRepository.count()).isEqualTo(2)
   }

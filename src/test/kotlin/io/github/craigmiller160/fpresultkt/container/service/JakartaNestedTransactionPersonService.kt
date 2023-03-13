@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
-class JavaxNestedTransactionPersonService(private val personRepository: PersonRepository) {
+class JakartaNestedTransactionPersonService(private val personRepository: PersonRepository) {
   @Transactional
   fun javaxNestedSaveFailure(person: Person): Either<Throwable, Person> {
     personRepository.save(person)

@@ -9,12 +9,12 @@ import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
-class JavaxTransactionPersonService(
+class JakartaTransactionPersonService(
     private val personRepository: PersonRepository,
-    private val nestedService: JavaxNestedTransactionPersonService
+    private val nestedService: JakartaNestedTransactionPersonService
 ) {
   @Transactional
-  fun javaxSaveAndCommit(person: Person): Either<Throwable, Person> =
+  fun jakartaSaveAndCommit(person: Person): Either<Throwable, Person> =
       Either.Right(personRepository.saveAndFlush(person))
 
   @Transactional
