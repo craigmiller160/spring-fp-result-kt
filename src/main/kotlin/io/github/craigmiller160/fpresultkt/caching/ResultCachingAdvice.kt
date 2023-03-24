@@ -31,7 +31,7 @@ class ResultCachingAdvice(
     val result = joinPoint.proceed()
     val commonResult = resultConverterHandler.convert(result)
     if (commonResult is CommonResultFailure) {
-      TODO()
+      clearCacheForResult(joinPoint)
     }
 
     return result
