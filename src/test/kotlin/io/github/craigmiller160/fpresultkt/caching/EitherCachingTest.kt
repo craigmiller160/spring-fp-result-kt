@@ -62,6 +62,6 @@ class EitherCachingTest : BaseTest() {
     cachingService.count = 1
     shouldThrow<RuntimeException> { cachingService.getCountWithCache(true) }
     cachingService.count = 10
-    cachingService.getCountWithCache(false).shouldBeEqualComparingTo(1)
+    cachingService.getCountWithCache(false).shouldBeEqualComparingTo(10)
   }
 }
