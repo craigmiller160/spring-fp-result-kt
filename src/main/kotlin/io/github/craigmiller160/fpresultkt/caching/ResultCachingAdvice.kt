@@ -4,13 +4,13 @@ import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
 import java.lang.reflect.Method
 import org.aspectj.lang.ProceedingJoinPoint
-import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
 import org.slf4j.LoggerFactory
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.interceptor.CacheInterceptor
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
@@ -20,13 +20,22 @@ import org.springframework.stereotype.Component
 @Component
 class ResultCachingAdvice(
     private val context: AbstractApplicationContext,
-    private val resultConverterHandler: ResultConverterHandler
+    private val resultConverterHandler: ResultConverterHandler,
+    private val cacheInterceptor: CacheInterceptor
 ) {
   private val log = LoggerFactory.getLogger(javaClass)
+  // TODO delete all of this if it doesn't work
   @Pointcut("@annotation(org.springframework.cache.annotation.Cacheable)") fun cacheable() {}
 
-  @Around("cacheable()")
+  //    @Around("execution(* org.springframework.cache.interceptor.CacheInterceptor.*(..))")
+  fun experiment(joinPoint: ProceedingJoinPoint): Any? {
+    println("I AM HERE")
+    return joinPoint.proceed()
+  }
+
+  //  @Around("cacheable()")
   fun handleResultReturnValue(joinPoint: ProceedingJoinPoint): Any? {
+    println("INTERCEPTOR: $cacheInterceptor") // TODO delete this
     val result = joinPoint.proceed()
     val commonResult = resultConverterHandler.convert(result)
     if (commonResult is CommonResultFailure) {
