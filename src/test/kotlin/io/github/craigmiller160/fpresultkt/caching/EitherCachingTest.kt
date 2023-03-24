@@ -40,4 +40,9 @@ class EitherCachingTest : BaseTest() {
     cachingService.count = 10
     cachingService.getCountWithCache(false).shouldBeRight(10)
   }
+
+  @Test
+  fun `does not store the value in the cache for a Left, using a specific CacheManager`() {
+    TODO()
+  }
 }

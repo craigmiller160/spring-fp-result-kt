@@ -19,7 +19,7 @@ class ResultTransactionAdvice(private val resultConverterHandler: ResultConverte
   fun springTransactional() {}
 
   @Around("jakartaTransactional() || springTransactional()")
-  fun handleEitherReturnValue(joinPoint: ProceedingJoinPoint): Any? {
+  fun handleResultReturnValue(joinPoint: ProceedingJoinPoint): Any? {
     val savepoint =
         if (isTransactionActive() &&
             TransactionAspectSupport.currentTransactionStatus().supportsSavepoints()) {
