@@ -30,7 +30,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude("org.junit.vintage", "junit-vintage-engine")
     }
-    testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:1.2.5")
+    testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:1.3.0")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.5.5")
     testImplementation("org.postgresql:postgresql:42.4.0")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
