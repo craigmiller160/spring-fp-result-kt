@@ -46,7 +46,11 @@ class EitherCachingTest : BaseTest() {
 
   @Test
   fun `spring - does not store the value in the cache for a Left, with a cache key`() {
-    TODO()
+    val key = "hello"
+    cachingService.count = 1
+    cachingService.getCountWithCacheAndKeyEither(key, true).shouldBeLeft(RuntimeException("Dying"))
+    cachingService.count = 10
+    cachingService.getCountWithCacheAndKeyEither(key, false).shouldBeRight(10)
   }
 
   @Test

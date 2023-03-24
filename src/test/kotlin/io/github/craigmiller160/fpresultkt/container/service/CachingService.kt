@@ -20,6 +20,14 @@ class CachingService {
     return Either.Right(count)
   }
 
+  @Cacheable(cacheNames = [CACHE], key = "#key")
+  fun getCountWithCacheAndKeyEither(key: String, withException: Boolean): Either<Throwable, Int> {
+    if (withException) {
+      return Either.Left(RuntimeException("Dying"))
+    }
+    return Either.Right(count)
+  }
+
   @Cacheable(cacheNames = [CACHE])
   fun getCountWithCache(withException: Boolean): Int {
     if (withException) {
