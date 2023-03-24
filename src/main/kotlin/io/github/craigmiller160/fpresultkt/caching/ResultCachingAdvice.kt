@@ -2,6 +2,8 @@ package io.github.craigmiller160.fpresultkt.caching
 
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
+import java.lang.RuntimeException
+import java.lang.reflect.Method
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -11,6 +13,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.support.AbstractApplicationContext
+import org.springframework.expression.spel.standard.SpelExpressionParser
+import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Component
 
 @Aspect
@@ -34,12 +38,11 @@ class ResultCachingAdvice(
   }
 
   private fun clearCacheForResult(joinPoint: ProceedingJoinPoint) {
-    (joinPoint.signature as MethodSignature).method.getAnnotation(Cacheable::class.java)?.let {
-      clearCacheWithCacheable(it)
-    }
+    val method = (joinPoint.signature as MethodSignature).method
+    method.getAnnotation(Cacheable::class.java)?.let { clearCacheWithCacheable(method, it) }
   }
 
-  private fun clearCacheWithCacheable(cacheable: Cacheable) {
+  private fun clearCacheWithCacheable(method: Method, cacheable: Cacheable) {
     val cacheManager =
         if (cacheable.cacheManager.isNotBlank()) {
           context.getBean(cacheable.cacheManager) as CacheManager?
@@ -52,6 +55,13 @@ class ResultCachingAdvice(
       return
     }
 
-    cacheable.cacheNames.map { cacheManager.getCache(it) }.forEach { cache -> }
+    val context = StandardEvaluationContext(method)
+    val cacheKey =
+        SpelExpressionParser().parseExpression(cacheable.key).getValue(context)
+            ?: RuntimeException("Dying") // TODO better exceptions
+
+    cacheable.cacheNames
+        .mapNotNull { cacheManager.getCache(it) }
+        .forEach { cache -> cache.evict(cacheKey) }
   }
 }
