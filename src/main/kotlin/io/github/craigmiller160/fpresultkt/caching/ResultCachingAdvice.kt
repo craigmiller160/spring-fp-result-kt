@@ -56,6 +56,7 @@ class ResultCachingAdvice(
 
     val cacheKey =
         if (cacheable.key.isNotBlank()) {
+          // TODO this is going to be really hard to evaluate consistently
           val context = StandardEvaluationContext(method)
           SpelExpressionParser().parseExpression(cacheable.key).getValue(context)
         } else {
