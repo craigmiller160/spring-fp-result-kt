@@ -45,4 +45,14 @@ class EitherCachingTest : BaseTest() {
   fun `spring - does not store the value in the cache for a Left, using a specific CacheManager`() {
     TODO()
   }
+
+  @Test
+  fun `spring - no either, stores value in the cache`() {
+    TODO()
+  }
+
+  @Test
+  fun `spring - no either, does not store value for exception`() {
+    TODO()
+  }
 }

@@ -1,6 +1,5 @@
 package io.github.craigmiller160.fpresultkt.transaction
 
-import arrow.core.Either
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
 import org.aspectj.lang.ProceedingJoinPoint
@@ -38,7 +37,7 @@ class ResultTransactionAdvice(private val resultConverterHandler: ResultConverte
   }
 
   private fun isTransactionActive(): Boolean =
-      Either.catch { TransactionAspectSupport.currentTransactionStatus() }.isRight()
+      runCatching { TransactionAspectSupport.currentTransactionStatus() }.isSuccess
 
   private fun rollbackTransaction(savepoint: Any?) {
     savepoint?.let {

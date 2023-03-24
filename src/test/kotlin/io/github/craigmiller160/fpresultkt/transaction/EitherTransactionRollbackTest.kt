@@ -93,6 +93,11 @@ class EitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
+  fun `spring - does not roll back for Left if Exception is not in rollbackFor`() {
+    TODO()
+  }
+
+  @Test
   fun `jakarta - nested transactional methods, rollback all`() {
     val person = Person(name = "Jimmy", age = 90)
     val result = jakartaService.jakartaNestedSaveAndRollbackAll(person)

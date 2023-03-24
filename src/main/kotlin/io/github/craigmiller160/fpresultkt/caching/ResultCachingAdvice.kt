@@ -6,6 +6,8 @@ import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
+import org.aspectj.lang.reflect.MethodSignature
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.stereotype.Component
 
@@ -27,4 +29,12 @@ class ResultCachingAdvice(
 
     return result
   }
+
+  private fun clearCacheForResult(joinPoint: ProceedingJoinPoint) {
+    (joinPoint.signature as MethodSignature).method.getAnnotation(Cacheable::class.java)?.let {
+      clearCacheWithCacheable(it)
+    }
+  }
+
+  private fun clearCacheWithCacheable(cacheable: Cacheable) {}
 }
