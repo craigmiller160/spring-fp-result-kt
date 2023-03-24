@@ -4,11 +4,11 @@ import io.github.craigmiller160.fpresultkt.BaseTest
 import io.github.craigmiller160.fpresultkt.container.service.CachingService
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 
 class EitherCachingTest : BaseTest() {
@@ -60,7 +60,7 @@ class EitherCachingTest : BaseTest() {
   @Test
   fun `spring - no either, does not store value for exception`() {
     cachingService.count = 1
-    assertThrows<RuntimeException> { cachingService.getCountWithCache(true) }
+    shouldThrow<RuntimeException> { cachingService.getCountWithCache(true) }
     cachingService.count = 10
     cachingService.getCountWithCache(false).shouldBeEqualComparingTo(1)
   }
