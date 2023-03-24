@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
+import org.slf4j.LoggerFactory
+import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.stereotype.Component
@@ -17,6 +19,7 @@ class ResultCachingAdvice(
     private val context: AbstractApplicationContext,
     private val resultConverterHandler: ResultConverterHandler
 ) {
+  private val log = LoggerFactory.getLogger(javaClass)
   @Pointcut("@annotation(org.springframework.cache.annotation.Cacheable)") fun cacheable() {}
 
   @Around("cacheable()")
@@ -36,5 +39,19 @@ class ResultCachingAdvice(
     }
   }
 
-  private fun clearCacheWithCacheable(cacheable: Cacheable) {}
+  private fun clearCacheWithCacheable(cacheable: Cacheable) {
+    val cacheManager =
+        if (cacheable.cacheManager.isNotBlank()) {
+          context.getBean(cacheable.cacheManager) as CacheManager?
+        } else {
+          context.getBean(CacheManager::class.java)
+        }
+
+    if (cacheManager == null) {
+      log.warn("Could not find CacheManager to evict cache record for failed result")
+      return
+    }
+
+    cacheable.cacheNames.map { cacheManager.getCache(it) }.forEach { cache -> }
+  }
 }
