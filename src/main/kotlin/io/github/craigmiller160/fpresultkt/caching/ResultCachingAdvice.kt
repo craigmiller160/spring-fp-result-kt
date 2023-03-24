@@ -2,7 +2,6 @@ package io.github.craigmiller160.fpresultkt.caching
 
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
-import java.lang.RuntimeException
 import java.lang.reflect.Method
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -55,13 +54,16 @@ class ResultCachingAdvice(
       return
     }
 
-    val context = StandardEvaluationContext(method)
     val cacheKey =
-        SpelExpressionParser().parseExpression(cacheable.key).getValue(context)
-            ?: RuntimeException("Dying") // TODO better exceptions
+        if (cacheable.key.isNotBlank()) {
+          val context = StandardEvaluationContext(method)
+          SpelExpressionParser().parseExpression(cacheable.key).getValue(context)
+        } else {
+          null
+        }
 
     cacheable.cacheNames
         .mapNotNull { cacheManager.getCache(it) }
-        .forEach { cache -> cache.evict(cacheKey) }
+        .forEach { cache -> cacheKey?.let { cache.evict(it) } ?: run { cache.clear() } }
   }
 }
