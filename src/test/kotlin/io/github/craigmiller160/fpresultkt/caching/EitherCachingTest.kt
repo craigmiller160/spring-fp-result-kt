@@ -26,23 +26,23 @@ class EitherCachingTest : BaseTest() {
     cachingService.count = 0
   }
   @Test
-  fun `stores the value in the cache for a Right`() {
+  fun `spring - stores the value in the cache for a Right`() {
     cachingService.count = 1
-    cachingService.getCountWithCache(false).shouldBeRight(1)
+    cachingService.getCountWithCacheSpring(false).shouldBeRight(1)
     cachingService.count = 10
-    cachingService.getCountWithCache(false).shouldBeRight(1)
+    cachingService.getCountWithCacheSpring(false).shouldBeRight(1)
   }
 
   @Test
-  fun `does not store the value in the cache for a Left`() {
+  fun `spring - does not store the value in the cache for a Left`() {
     cachingService.count = 1
-    cachingService.getCountWithCache(true).shouldBeRight(1)
+    cachingService.getCountWithCacheSpring(true).shouldBeRight(1)
     cachingService.count = 10
-    cachingService.getCountWithCache(false).shouldBeRight(10)
+    cachingService.getCountWithCacheSpring(false).shouldBeRight(10)
   }
 
   @Test
-  fun `does not store the value in the cache for a Left, using a specific CacheManager`() {
+  fun `spring - does not store the value in the cache for a Left, using a specific CacheManager`() {
     TODO()
   }
 }

@@ -13,7 +13,7 @@ class CachingService {
   var count: Int = 0
 
   @Cacheable(cacheNames = [CACHE])
-  fun getCountWithCache(withException: Boolean): Either<Throwable, Int> {
+  fun getCountWithCacheSpring(withException: Boolean): Either<Throwable, Int> {
     if (withException) {
       return Either.Left(RuntimeException("Dying"))
     }
