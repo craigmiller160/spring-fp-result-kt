@@ -4,9 +4,9 @@ import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
 
 @Component
-class TempPostProcessor : BeanPostProcessor {
+class CacheManagerPostProcessor : BeanPostProcessor {
   override fun postProcessAfterInitialization(bean: Any, beanName: String): Any? {
-    println("$beanName = ${bean.javaClass.name}")
+    println("BEAN: $beanName = ${bean.javaClass.name}")
     return bean
   }
 }

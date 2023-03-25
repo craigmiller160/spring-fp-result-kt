@@ -9,6 +9,7 @@ import org.springframework.cache.interceptor.CacheOperationSource
 
 class ResultCacheInterceptor(private val defaultCacheInterceptor: CacheInterceptor) :
     CacheInterceptor() {
+  // TODO delete this
   private var initialized: Boolean = false
   override fun invoke(invocation: MethodInvocation): Any? {
     val result = super.invoke(invocation)

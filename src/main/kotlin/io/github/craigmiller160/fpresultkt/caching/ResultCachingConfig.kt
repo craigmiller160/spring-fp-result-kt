@@ -12,6 +12,7 @@ import org.springframework.core.annotation.Order
 @Configuration(proxyBeanMethods = false)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 class ResultCachingConfig {
+  // TODO delete this
   @Bean
   @Primary
   @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
