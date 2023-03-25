@@ -54,11 +54,6 @@ class EitherCachingTest : BaseTest() {
   }
 
   @Test
-  fun `spring - does not store the value in the cache for a Left, using a specific CacheManager`() {
-    TODO()
-  }
-
-  @Test
   fun `spring - no either, stores value in the cache`() {
     cachingService.count = 1
     cachingService.getCountWithCache(false).shouldBeEqualComparingTo(1)
