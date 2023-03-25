@@ -32,7 +32,7 @@ class ResultCacheInterceptor(private val defaultCacheInterceptor: CacheIntercept
 
     val targetClass = AopProxyUtils.ultimateTargetClass(target)
     cacheOperationSource?.getCacheOperations(method, targetClass)?.let { operations ->
-      val context = CacheOperationContexts(operations, method, args, target, targetClass)
+      //      val context = CacheOperationContexts(operations, method, args, target, targetClass)
     }
 
     return super.execute(invoker, target, method, args)
