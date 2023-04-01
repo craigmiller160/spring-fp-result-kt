@@ -1,23 +1,14 @@
-package io.github.craigmiller160.fpresultkt.transaction
+package io.github.craigmiller160.fpresultkt.transaction.support
 
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
+import io.github.craigmiller160.fpresultkt.transaction.supportsSavepoints
 import org.aspectj.lang.ProceedingJoinPoint
-import org.aspectj.lang.annotation.Around
-import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Pointcut
 import org.springframework.stereotype.Component
 import org.springframework.transaction.interceptor.TransactionAspectSupport
 
-@Aspect
 @Component
-class ResultTransactionAdvice(private val resultConverterHandler: ResultConverterHandler) {
-  @Pointcut("@annotation(jakarta.transaction.Transactional)") fun jakartaTransactional() {}
-
-  @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
-  fun springTransactional() {}
-
-  @Around("jakartaTransactional() || springTransactional()")
+class ResultTransactionSupport(private val resultConverterHandler: ResultConverterHandler) {
   fun handleResultReturnValue(joinPoint: ProceedingJoinPoint): Any? {
     val savepoint =
         if (isTransactionActive() &&
@@ -35,4 +26,14 @@ class ResultTransactionAdvice(private val resultConverterHandler: ResultConverte
 
     return result
   }
+}
+
+private fun isTransactionActive(): Boolean =
+    runCatching { TransactionAspectSupport.currentTransactionStatus() }.isSuccess
+
+private fun rollbackTransaction(savepoint: Any?) {
+  savepoint?.let {
+    TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savepoint)
+  }
+      ?: TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
 }
