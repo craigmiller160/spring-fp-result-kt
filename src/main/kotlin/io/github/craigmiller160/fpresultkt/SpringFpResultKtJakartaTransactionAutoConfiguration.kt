@@ -6,5 +6,9 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConditionalOnClass(jakarta.transaction.Transactional::class)
-@ComponentScan(basePackages = ["io.github.craigmiller160.fpresultkt.transaction.advice.jakarta"])
+@ComponentScan(
+    basePackages =
+        [
+            "io.github.craigmiller160.fpresultkt.transaction.support",
+            "io.github.craigmiller160.fpresultkt.transaction.advice.jakarta"])
 class SpringFpResultKtJakartaTransactionAutoConfiguration
