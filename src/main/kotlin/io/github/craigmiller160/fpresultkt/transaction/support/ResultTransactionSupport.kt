@@ -2,7 +2,7 @@ package io.github.craigmiller160.fpresultkt.transaction.support
 
 import io.github.craigmiller160.fpresultkt.converter.CommonResultFailure
 import io.github.craigmiller160.fpresultkt.converter.ResultConverterHandler
-import io.github.craigmiller160.fpresultkt.transaction.supportsSavepoints
+import io.github.craigmiller160.fpresultkt.transaction.extensions.supportsSavepoints
 import org.aspectj.lang.ProceedingJoinPoint
 import org.springframework.stereotype.Component
 import org.springframework.transaction.interceptor.TransactionAspectSupport
