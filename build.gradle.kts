@@ -36,6 +36,8 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("com.h2database:h2")
+    testImplementation("org.postgresql:r2dbc-postgresql:42.4.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     val kotlinCoroutinesReactor = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor"
     compileOnly(kotlinCoroutinesReactor)
