@@ -59,7 +59,7 @@ class ResultMethodReturnValueHandler(
     val response = (webRequest.nativeResponse as HttpServletResponse)
     responseEntity.headers.contentType
 
-    response.status = responseEntity.statusCodeValue
+    response.status = responseEntity.statusCode.value()
     responseEntity.headers
         .asSequence()
         .flatMap { entry -> entry.value.asSequence().map { entry.key to it } }
