@@ -1,4 +1,4 @@
-package io.github.craigmiller160.fpresultkt.transaction
+package io.github.craigmiller160.fpresultkt.transaction.extensions
 
 import arrow.core.Either
 import arrow.core.getOrHandle
