@@ -51,7 +51,7 @@ Once it is on the classpath, Spring AutoConfiguration will do the rest.
 2. [Michael Bull's Kotlin-Result](https://github.com/michaelbull/kotlin-result) (`com.github.michaelbull.result.Result`)
 3. [Arrow-KT's Either](https://arrow-kt.io) (`arrow.core.Either`)
 
-### A Note oN Eithers
+### A Note On Eithers
 
 This library treats the Arrow-KT `Either` type exclusively as an error-handling container. It assumes that any `Left` value is an error, even if it is not of type `Throwable`.
 
@@ -116,3 +116,7 @@ fun doSomethingInTransaction(
 In this scenario, it may look that the `nestedService.doSomethingElseInTransaction` would rollback if returning a `Left`, whereas `doSomethingInTransaction` would commit since it returns a `Right`. The catch is that Spring's transaction rules apply here. Spring has limited support for nested transactions and partial rollbacks. 
 
 The point is simple: if your app is configured so a nested transaction would work with exceptions & try/catch, it'll work with Result types via this library. If a nested transaction would not work with exceptions & try/catch, then it still will not work with this library.
+
+### Caching
+
+A method annotated with Spring's `@Cacheable` can now return a result type such as an `Either`. If the result is an error, then the value will not be cached. If the result is a success, then the value will be cached.
