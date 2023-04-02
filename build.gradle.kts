@@ -37,6 +37,9 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("com.h2database:h2")
 
+    val kotlinCoroutinesReactor = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor"
+    compileOnly(kotlinCoroutinesReactor)
+    testImplementation(kotlinCoroutinesReactor)
 
     val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa"
     compileOnly(springDataJpa)

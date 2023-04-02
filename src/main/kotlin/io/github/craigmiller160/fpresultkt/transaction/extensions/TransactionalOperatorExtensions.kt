@@ -4,6 +4,7 @@ import arrow.core.Either
 import org.springframework.transaction.ReactiveTransaction
 import org.springframework.transaction.reactive.TransactionalOperator
 import org.springframework.transaction.reactive.executeAndAwait
+import reactor.core.publisher.Flux
 
 suspend fun <E, T> TransactionalOperator.executeAndAwaitEither(
     fn: suspend (ReactiveTransaction) -> Either<E, T>
