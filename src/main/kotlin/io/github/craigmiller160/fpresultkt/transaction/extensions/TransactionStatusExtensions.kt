@@ -6,7 +6,7 @@ import arrow.core.redeemWith
 import org.springframework.transaction.NestedTransactionNotSupportedException
 import org.springframework.transaction.TransactionStatus
 
-fun TransactionStatus.supportsSavepoints(): Boolean =
+internal fun TransactionStatus.supportsSavepoints(): Boolean =
     Either.catch { releaseSavepoint("") }
         .redeemWith(
             { ex ->
