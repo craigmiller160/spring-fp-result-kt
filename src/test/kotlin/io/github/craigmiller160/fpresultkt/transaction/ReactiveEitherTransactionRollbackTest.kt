@@ -12,6 +12,7 @@ import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.r2dbc.core.DatabaseClient
@@ -52,11 +53,13 @@ class ReactiveEitherTransactionRollbackTest : BaseTest() {
   }
 
   @Test
+  @Disabled("Not supported right now")
   fun `reactor - commits the result of the transaction for Right`() {
     TODO()
   }
 
   @Test
+  @Disabled("Not supported right now")
   fun `reactor - rolls back the transaction for Left`() {
     TODO()
   }
