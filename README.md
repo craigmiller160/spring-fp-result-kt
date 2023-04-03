@@ -122,11 +122,6 @@ The point is simple: if your app is configured so a nested transaction would wor
 For the most part, reactive transactions are handed by the same `@Transactional` annotations as non-reactive transactions. However there are limitations involving Spring AOP (used for the `@Transactional` implementation in this library) and reactive programming, especially with Kotlin Coroutines. For this reason, special extension functions have been added to the `TransactionalOperator` class that automatically trigger rollbacks if a failed result type is returned.
 
 ```kotlin
-// Project Reactor
-val result: Flux<Either<Exception, Value>> = transactionalOperator.executeEither {
-    databaseOperationThatReturnsEitherFlux()
-}
-
 // Suspending operation in a Coroutine
 val result: Either<Exception, Value> = transactionalOperator.executeAndAwaitEither {
     databaseOperationThatReturnsEither()
