@@ -32,11 +32,15 @@ dependencies {
     }
     testImplementation("io.kotest.extensions:kotest-assertions-arrow-jvm:1.3.0")
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.5.5")
-    testImplementation("org.postgresql:postgresql:42.4.0")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("com.h2database:h2")
+    testImplementation("io.r2dbc:r2dbc-h2")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
+    val kotlinCoroutinesReactor = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor"
+    compileOnly(kotlinCoroutinesReactor)
+    testImplementation(kotlinCoroutinesReactor)
 
     val springDataJpa = "org.springframework.boot:spring-boot-starter-data-jpa"
     compileOnly(springDataJpa)

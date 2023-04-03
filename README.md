@@ -51,7 +51,7 @@ Once it is on the classpath, Spring AutoConfiguration will do the rest.
 2. [Michael Bull's Kotlin-Result](https://github.com/michaelbull/kotlin-result) (`com.github.michaelbull.result.Result`)
 3. [Arrow-KT's Either](https://arrow-kt.io) (`arrow.core.Either`)
 
-### A Note oN Eithers
+### A Note On Eithers
 
 This library treats the Arrow-KT `Either` type exclusively as an error-handling container. It assumes that any `Left` value is an error, even if it is not of type `Throwable`.
 
@@ -85,7 +85,7 @@ For customized responses, a Result type wrapping around a `ResponseEntity` will 
 fun request(): Either<Throwable,ResposneEntity<Body>> = /* ... */
 ```
 
-### Transaction Rollbacks
+### Transaction Annotation Rollbacks
 
 The default behavior of Spring is to only rollback an `@Transactional` transaction on an exception. This library adds support for triggering a rollback when returning a failed Result type without needing to unwrap and throw the exception.
 
@@ -116,3 +116,18 @@ fun doSomethingInTransaction(
 In this scenario, it may look that the `nestedService.doSomethingElseInTransaction` would rollback if returning a `Left`, whereas `doSomethingInTransaction` would commit since it returns a `Right`. The catch is that Spring's transaction rules apply here. Spring has limited support for nested transactions and partial rollbacks. 
 
 The point is simple: if your app is configured so a nested transaction would work with exceptions & try/catch, it'll work with Result types via this library. If a nested transaction would not work with exceptions & try/catch, then it still will not work with this library.
+
+### Reactive Transaction Rollbacks
+
+For the most part, reactive transactions are handed by the same `@Transactional` annotations as non-reactive transactions. However there are limitations involving Spring AOP (used for the `@Transactional` implementation in this library) and reactive programming, especially with Kotlin Coroutines. For this reason, special extension functions have been added to the `TransactionalOperator` class that automatically trigger rollbacks if a failed result type is returned.
+
+```kotlin
+// Suspending operation in a Coroutine
+val result: Either<Exception, Value> = transactionalOperator.executeAndAwaitEither {
+    databaseOperationThatReturnsEither()
+}
+```
+
+### Caching
+
+A method annotated with Spring's `@Cacheable` can now return a result type such as an `Either`. If the result is an error, then the value will not be cached. If the result is a success, then the value will be cached.
